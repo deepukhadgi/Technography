@@ -1,34 +1,33 @@
-# Dependencies
-node_modules/
-.pnp
-.pnp.js
+# dependencies
+/node_modules
 
-# Build outputs
-.next/
-out/
-dist/
-build/
-coverage/
+# next.js
+/.next/
+/out/
 
-# Next.js
-.env*.local
-.env*.production
-.vercel
+# production
+/build
 
-# Misc
+# misc
 .DS_Store
-*.log
+*.pem
+*.key
+*.p12
+
+# debug
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-pnpm-debug.log*
 
-# Editors
-.vscode/
-.idea/
+# env files — NEVER commit real values
+.env
+.env*.local
+.env*.example
 
-# System
-Thumbs.db
+# local deploy scripts (contain server addresses / infra details)
+/deploy/
+scripts/deploy*
 
-# Deploy artifacts (nginx static root copies)
-deploy/
+# typescript
+*.tsbuildinfo
+next-env.d.ts

@@ -1,27 +1,48 @@
 # Technography
 
-Personal website project by Deepu Khadgi.
+Personal website and tech blog of **Deepu Khadgi** (DevOps Engineer).
 
-## Planned Structure
+Live at [deepukhadgi.com.np](https://deepukhadgi.com.np).
 
-This repo will hold **two** deliverables:
+## Stack
 
-1. **Static site** — landing/portfolio page (fast, simple, SEO-friendly)
-2. **Web app** — modern React/Next.js application with a backend
+- [Next.js](https://nextjs.org) (App Router, standalone output) + TypeScript
+- Tailwind CSS v4
+- Markdown blog posts in `content/posts/` (frontmatter: `title`, `date`, `excerpt`, `tags`)
+- Deployed self-hosted: Node.js + nginx reverse proxy
 
-## Deployment Target
+## Structure
 
-- Host: `webserver` VM (Ubuntu 26.04, internal LAN)
-- Stack to be finalized: nginx + Node.js, with SSL
+```
+src/app/          pages (home, about, blog, contact)
+src/lib/posts.ts  markdown → HTML blog engine
+content/posts/    blog posts (add a .md file → it appears on the blog)
+```
 
-## Status
+## Local development
 
-- [x] Repo created, initial commit pushed
-- [ ] Site spec (content, branding, features)
-- [ ] Static site scaffold
-- [ ] Web app scaffold (Next.js + backend)
-- [ ] Server provisioning (nginx, Node, SSL)
-- [ ] Deploy + CI
+```bash
+npm install
+npm run dev      # http://localhost:3000
+npm run build    # production build (.next/standalone)
+```
+
+## Writing a post
+
+Create `content/posts/my-post.md`:
+
+```md
+---
+title: "My post"
+date: "2026-08-01"
+excerpt: "Short summary shown on the blog index."
+tags: ["linux", "docker"]
+---
+
+Content in markdown...
+```
+
+Done — it shows up on `/blog` after a rebuild.
 
 ## License
 
