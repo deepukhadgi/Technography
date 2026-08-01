@@ -11,7 +11,7 @@ This repo will hold **two** deliverables:
 
 ## Deployment Target
 
-- Host: `webserver` VM (, Ubuntu 26.04)
+- Host: `webserver` VM (Ubuntu 26.04, internal LAN)
 - Stack to be finalized: nginx + Node.js, with SSL
 
 ## Status
