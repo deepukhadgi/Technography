@@ -16,6 +16,12 @@ const links = [
     desc: "Professional profile and work history.",
   },
   {
+    label: "instagram",
+    handle: "@rwomehyo",
+    href: "https://instagram.com/rwomehyo",
+    desc: "Photos and daily life behind the terminal.",
+  },
+  {
     label: "website",
     handle: "deepukhadgi.com.np",
     href: "https://deepukhadgi.com.np",
@@ -37,7 +43,7 @@ export default function ContactPage() {
         is on the roadmap.
       </p>
 
-      <div className="mt-10 grid gap-4 sm:grid-cols-3">
+      <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {links.map((l) => (
           <a
             key={l.label}

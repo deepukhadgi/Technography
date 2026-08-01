@@ -91,6 +91,15 @@ export default function RootLayout({
                 linkedin
               </a>
               <span className="text-line">|</span>
+              <a
+                href="https://instagram.com/rwomehyo"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-accent"
+              >
+                instagram
+              </a>
+              <span className="text-line">|</span>
               <span>self-hosted with ❤</span>
             </p>
           </div>
