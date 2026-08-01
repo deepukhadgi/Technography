@@ -165,3 +165,7 @@ If you're running any kind of homelab, the combination of Hermes Agent +
 OmniRoute is the most capable self-hosted AI setup I've found. Two
 projects, one configuration change, and you have an autonomous agent that
 actually does things.
+
+*Part 2 of this series digs into Hermes Agent itself — the learning loop,
+the tool system, and why it gets more capable the longer it runs:
+[What is Hermes Agent? The self-improving AI agent from Nous Research](/blog/what-is-hermes-agent).*
