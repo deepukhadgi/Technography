@@ -16,9 +16,10 @@ every tool out there quietly stops. Hermes Agent is one of the few that
 doesn't.
 
 This post is part 2 of my self-hosted AI series — [part 1 covered wiring
-Hermes to OmniRoute for free models](/blog/omniroute-hermes-agent). Here
-I go deeper into what Hermes Agent is, how its learning loop works, and what
-it can actually do.
+Hermes to OmniRoute for free models](/blog/omniroute-hermes-agent), and
+[part 3 is a deep dive on OmniRoute itself](/blog/what-is-omniroute).
+Here I go deeper into what Hermes Agent is, how its learning loop works,
+and what it can actually do.
 
 ## Not a copilot, not a wrapper
 
@@ -149,6 +150,8 @@ hermes chat -q "What is Docker?"
 For the self-hosted angle, part 1 of this series shows how to point it at
 your own AI gateway — hundreds of models through one local endpoint, free
 tiers included: [Running Hermes Agent with OmniRoute](/blog/omniroute-hermes-agent).
+And if you want the full story on the gateway itself, [part 3 breaks down
+what OmniRoute actually is](/blog/what-is-omniroute).
 
 ## The takeaway
 
