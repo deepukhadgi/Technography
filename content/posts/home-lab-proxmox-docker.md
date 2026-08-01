@@ -5,7 +5,7 @@ excerpt: "How I run my home lab — a virtualization host, a Docker server, and 
 tags: ["homelab", "proxmox", "docker", "virtualization"]
 ---
 
-A home lab is the best playground a DevOps person can have. No change
+A home lab is the best playground a network engineer can have. No change
 requests, no change windows, no blame — just snapshots and rollbacks. Here's
 how mine is laid out.
 

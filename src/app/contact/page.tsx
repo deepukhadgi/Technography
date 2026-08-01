@@ -65,7 +65,7 @@ export default function ContactPage() {
         <p>
           <span className="text-accent">$</span> whois deepu
         </p>
-        <p className="mt-2">role: DevOps Engineer</p>
+        <p className="mt-2">role: Network Engineer</p>
         <p>stack: Linux · Docker · virtualization · networking</p>
         <p>status: open to interesting problems</p>
       </div>

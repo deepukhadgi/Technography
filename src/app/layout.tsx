@@ -15,14 +15,14 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Deepu Khadgi — DevOps Engineer",
+    default: "Deepu Khadgi — Network Engineer",
     template: "%s — Deepu Khadgi",
   },
   description:
-    "Personal site and blog of Deepu Khadgi, a DevOps engineer writing about Linux, Docker, virtualization, networking, and self-hosting.",
+    "Personal site and blog of Deepu Khadgi, a network engineer writing about Linux, Docker, virtualization, networking, and self-hosting.",
   metadataBase: new URL("https://deepukhadgi.com.np"),
   openGraph: {
-    title: "Deepu Khadgi — DevOps Engineer",
+    title: "Deepu Khadgi — Network Engineer",
     description:
       "Networks, containers, VMs, and infrastructure that just works. Personal blog about tech and the stuff I build.",
     type: "website",

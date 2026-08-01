@@ -9,7 +9,7 @@ Every developer's journey starts with a hello world. This blog is mine.
 
 ## Why this site exists
 
-I'm a DevOps engineer. I spend my days (and a fair amount of nights) working
+I'm a network engineer. I spend my days (and a fair amount of nights) working
 with Linux systems, Docker containers, virtualized infrastructure, and the
 networks that glue them together. I've been running my own home lab for a
 while now — virtual hosts, self-hosted services, automation scripts — and

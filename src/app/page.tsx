@@ -31,7 +31,7 @@ export default function HomePage() {
           <span className="cursor-blink text-accent">▊</span>
         </h1>
         <p className="mt-4 font-mono text-base text-cyan sm:text-lg">
-          DevOps Engineer · networks, containers &amp; infrastructure that just
+          Network Engineer · networks, containers &amp; infrastructure that just
           works
         </p>
         <p className="mt-6 max-w-2xl text-dim">

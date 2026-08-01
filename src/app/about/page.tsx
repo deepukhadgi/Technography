@@ -33,8 +33,8 @@ export default function AboutPage() {
 
       <div className="post-content mt-8 max-w-2xl text-sm leading-relaxed text-dim">
         <p>
-          I&apos;m <span className="text-fg">Deepu Khadgi</span>, a DevOps
-          engineer who enjoys working across the whole stack — but especially
+          I&apos;m <span className="text-fg">Deepu Khadgi</span>, a Network
+          Engineer who enjoys working across the whole stack — but especially
           the parts most people never see: the network, the servers, and the
           systems that keep services running.
         </p>
@@ -84,7 +84,7 @@ export default function AboutPage() {
           services, networking, and automation
         </p>
         <p className="mt-2">
-          <span className="text-accent">▸</span> Writing about DevOps &amp;
+          <span className="text-accent">▸</span> Writing about networking &amp;
           infrastructure on this blog
         </p>
         <p className="mt-4 text-xs text-dim/70">
