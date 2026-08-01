@@ -1,6 +1,6 @@
 # Technography
 
-Personal website and tech blog of **Deepu Khadgi** (DevOps Engineer).
+Personal website and tech blog of **Deepu Khadgi**.
 
 Live at [deepukhadgi.com.np](https://deepukhadgi.com.np).
 
