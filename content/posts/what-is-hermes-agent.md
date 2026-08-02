@@ -17,7 +17,8 @@ doesn't.
 
 This post is part 2 of my self-hosted AI series — [part 1 covered wiring
 Hermes to OmniRoute for free models](/blog/omniroute-hermes-agent), and
-[part 3 is a deep dive on OmniRoute itself](/blog/what-is-omniroute).
+[part 3 is a deep dive on OmniRoute itself](/blog/what-is-omniroute),
+and [part 4 covers Honcho — AI-native memory](/blog/what-is-honcho).
 Here I go deeper into what Hermes Agent is, how its learning loop works,
 and what it can actually do.
 
@@ -152,6 +153,8 @@ your own AI gateway — hundreds of models through one local endpoint, free
 tiers included: [Running Hermes Agent with OmniRoute](/blog/omniroute-hermes-agent).
 And if you want the full story on the gateway itself, [part 3 breaks down
 what OmniRoute actually is](/blog/what-is-omniroute).
+For the memory layer that makes the agent truly understand you,
+[part 4 covers Honcho — AI-native memory](/blog/what-is-honcho).
 
 ## The takeaway
 

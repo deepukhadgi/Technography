@@ -165,5 +165,6 @@ self-hosted AI stack I've found, and the whole thing costs nothing but the
 provider keys you choose to add.
 
 If you want to see it wired to an actual agent: [part 1 shows the exact
-Hermes + OmniRoute setup](/blog/omniroute-hermes-agent), and [part 2
-explains why the agent half matters](/blog/what-is-hermes-agent).
+Hermes + OmniRoute setup](/blog/omniroute-hermes-agent), [part 2
+explains why the agent half matters](/blog/what-is-hermes-agent), and
+[part 4 adds AI-native memory with Honcho](/blog/what-is-honcho).

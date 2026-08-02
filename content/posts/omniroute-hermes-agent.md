@@ -170,4 +170,6 @@ actually does things.
 the tool system, and why it gets more capable the longer it runs:
 [What is Hermes Agent? The self-improving AI agent from Nous Research](/blog/what-is-hermes-agent).
 Part 3 is the OmniRoute deep dive: [What is OmniRoute? One endpoint for
-290+ AI providers](/blog/what-is-omniroute).*
+290+ AI providers](/blog/what-is-omniroute).
+Part 4 adds the memory layer: [What is Honcho? AI-native memory for your
+self-hosted agent](/blog/what-is-honcho).*
