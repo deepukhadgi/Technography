@@ -53,8 +53,8 @@ export default function AuthNav({ onNavigate }: { onNavigate?: () => void }) {
     } catch {
       // ignore — session cookie may already be gone; still navigate away
     }
-    router.push("/");
-    router.refresh();
+    // Full reload to clear client-side auth state (router.push("/") + refresh() doesn't re-run useEffect)
+    window.location.href = "/";
   }
 
   return (
