@@ -10,6 +10,11 @@ import {
 
 export const runtime = "nodejs";
 
+/** Strip all HTML tags to prevent stored XSS. */
+function stripHtml(input: string): string {
+  return input.replace(/<[^>]*>/g, "").trim();
+}
+
 type CommentRow = {
   id: number;
   post_slug: string;
@@ -106,8 +111,8 @@ export async function POST(req: NextRequest) {
   }
 
   const slug = typeof postSlug === "string" ? postSlug.trim() : "";
-  const name = typeof authorName === "string" ? authorName.trim() : "";
-  const text = typeof body === "string" ? body.trim() : "";
+  const name = stripHtml(typeof authorName === "string" ? authorName.trim() : "");
+  const text = stripHtml(typeof body === "string" ? body.trim() : "");
 
   if (!slug || slug.length > 200) {
     return Response.json({ error: "postSlug must be 1-200 characters" }, { status: 400 });
