@@ -13,7 +13,7 @@ If you discover a security vulnerability in this project, **please do NOT open a
 
 ### How to report
 
-Email: [deepukhadgi@gmail.com](mailto:deepukhadgi@gmail.com)
+Email: [deepu.khadgi@gmail.com](mailto:deepu.khadgi@gmail.com)
 
 Or open a **private** GitHub Security Advisory:
 - https://github.com/deepukhadgi/Technography/security/advisories/new
