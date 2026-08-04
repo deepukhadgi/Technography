@@ -39,6 +39,15 @@ export default function BlogPage() {
               ))}
             </div>
             <h2 className="mt-2 font-mono text-base font-bold group-hover:text-accent">
+              {p.premium && (
+                <span
+                  className="mr-1"
+                  title="Subscriber-only"
+                  aria-label="subscriber-only"
+                >
+                  🔒
+                </span>
+              )}
               {p.title}
             </h2>
             <p className="mt-2 text-sm text-dim">{p.excerpt}</p>

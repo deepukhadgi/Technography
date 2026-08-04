@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import Link from "next/link";
+import AuthNav from "@/components/AuthNav";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -29,15 +30,6 @@ export const metadata: Metadata = {
   },
 };
 
-const navLinks = [
-  { href: "/", label: "home" },
-  { href: "/about", label: "about" },
-  { href: "/blog", label: "blog" },
-  { href: "/contact", label: "contact" },
-  { href: "/signup", label: "signup" },
-  { href: "/login", label: "login" },
-];
-
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
@@ -53,15 +45,8 @@ export default function RootLayout({
               <span className="text-dim">:~$</span>
             </Link>
             <div className="flex items-center gap-5">
-              {navLinks.map((l) => (
-                <Link
-                  key={l.href}
-                  href={l.href}
-                  className="text-dim transition-colors hover:text-accent"
-                >
-                  {l.label}
-                </Link>
-              ))}
+              {/* auth-aware nav (client): shows logout when logged in */}
+              <AuthNav />
             </div>
           </nav>
         </header>

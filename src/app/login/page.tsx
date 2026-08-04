@@ -4,7 +4,12 @@ import LoginForm from "@/components/LoginForm";
 
 export const metadata: Metadata = { title: "Login" };
 
-export default function LoginPage() {
+type Props = { searchParams: Promise<{ next?: string }> };
+
+export default async function LoginPage({ searchParams }: Props) {
+  const { next } = await searchParams;
+  const nextPath = next && next.startsWith("/") && !next.startsWith("//") ? next : "/";
+
   return (
     <div className="mx-auto max-w-md px-4 py-16">
       <p className="font-mono text-sm text-dim">
@@ -18,7 +23,7 @@ export default function LoginPage() {
       </p>
 
       <div className="mt-8">
-        <LoginForm />
+        <LoginForm nextPath={nextPath} />
       </div>
 
       <p className="mt-6 text-center text-xs text-dim">

@@ -2,7 +2,17 @@
 
 import { useState, type FormEvent } from "react";
 
-export default function LoginForm() {
+/** Only allow same-origin relative redirects (never "//host" or "http…"). */
+function safeNextPath(raw: string | undefined | null): string {
+  if (raw && raw.startsWith("/") && !raw.startsWith("//")) return raw;
+  return "/";
+}
+
+export default function LoginForm({
+  nextPath = "/",
+}: {
+  nextPath?: string;
+}) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [hp, setHp] = useState("");
@@ -25,7 +35,8 @@ export default function LoginForm() {
         setError(data.error ?? "Login failed");
       } else {
         setSuccess(true);
-        setTimeout(() => (window.location.href = "/"), 800);
+        const dest = safeNextPath(nextPath);
+        setTimeout(() => (window.location.href = dest), 800);
       }
     } catch {
       setError("Network error — try again");
