@@ -23,6 +23,7 @@ yarn-error.log*
 .env
 .env*.local
 .env*.example
+!.env.example
 
 # local deploy scripts (contain server addresses / infra details)
 /deploy/

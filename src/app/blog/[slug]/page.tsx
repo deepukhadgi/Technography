@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getAllPosts, getPostBySlug, formatDate } from "@/lib/posts";
+import CommentsSection from "@/components/CommentsSection";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -58,6 +59,9 @@ export default async function PostPage({ params }: Props) {
         className="post-content prose prose-invert prose-sm mt-8 max-w-none text-dim prose-headings:text-fg prose-strong:text-fg"
         dangerouslySetInnerHTML={{ __html: post.contentHtml }}
       />
+
+      {/* client-side comments — page stays statically generated */}
+      <CommentsSection slug={slug} />
     </article>
   );
 }
