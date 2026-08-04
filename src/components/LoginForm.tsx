@@ -76,7 +76,7 @@ export default function LoginForm({
           required
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="mt-1 w-full rounded border border-line bg-panel px-3 py-2 font-mono text-sm text-fg outline-none transition-colors focus:border-accent"
+          className="mt-1 w-full rounded border border-line bg-panel px-3 py-3 font-mono text-base text-fg outline-none transition-colors focus:border-accent"
           placeholder="you@example.com"
         />
       </div>
@@ -91,7 +91,7 @@ export default function LoginForm({
           required
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="mt-1 w-full rounded border border-line bg-panel px-3 py-2 font-mono text-sm text-fg outline-none transition-colors focus:border-accent"
+          className="mt-1 w-full rounded border border-line bg-panel px-3 py-3 font-mono text-base text-fg outline-none transition-colors focus:border-accent"
           placeholder="min 8 characters"
         />
       </div>
@@ -103,7 +103,7 @@ export default function LoginForm({
       <button
         type="submit"
         disabled={loading}
-        className="w-full rounded border border-accent/60 bg-accent/10 px-4 py-2 font-mono text-sm text-accent transition-colors hover:bg-accent hover:text-bg disabled:opacity-50"
+        className="w-full rounded border border-accent/60 bg-accent/10 px-4 py-3 font-mono text-sm text-accent transition-colors hover:bg-accent hover:text-bg disabled:opacity-50"
       >
         {loading ? "logging in..." : "login →"}
       </button>

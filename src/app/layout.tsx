@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import Link from "next/link";
-import AuthNav from "@/components/AuthNav";
+import SiteNav from "@/components/SiteNav";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -37,18 +36,7 @@ export default function RootLayout({
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
       <body className="min-h-screen flex flex-col">
         <header className="sticky top-0 z-50 border-b border-line bg-bg/80 backdrop-blur">
-          <nav className="mx-auto flex max-w-4xl items-center justify-between px-4 py-3 font-mono text-sm">
-            <Link href="/" className="font-bold tracking-tight">
-              <span className="text-accent">deepu</span>
-              <span className="text-dim">@</span>
-              <span className="text-fg">dev</span>
-              <span className="text-dim">:~$</span>
-            </Link>
-            <div className="flex items-center gap-5">
-              {/* auth-aware nav (client): shows logout when logged in */}
-              <AuthNav />
-            </div>
-          </nav>
+          <SiteNav />
         </header>
 
         <main className="flex-1">{children}</main>

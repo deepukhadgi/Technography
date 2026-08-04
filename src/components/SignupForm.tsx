@@ -85,7 +85,7 @@ export default function SignupForm() {
         required
         autoComplete="email"
         placeholder="you@example.com"
-        className="mt-1 w-full rounded border border-line bg-panel px-3 py-2 font-mono text-sm text-fg placeholder:text-dim/50 focus:border-accent focus:outline-none"
+        className="mt-1 w-full rounded border border-line bg-panel px-3 py-3 font-mono text-base text-fg placeholder:text-dim/50 focus:border-accent focus:outline-none"
       />
 
       <label className="mt-4 block font-mono text-xs text-dim" htmlFor="s-password">
@@ -100,14 +100,14 @@ export default function SignupForm() {
         minLength={8}
         autoComplete="new-password"
         placeholder="8+ characters"
-        className="mt-1 w-full rounded border border-line bg-panel px-3 py-2 font-mono text-sm text-fg placeholder:text-dim/50 focus:border-accent focus:outline-none"
+        className="mt-1 w-full rounded border border-line bg-panel px-3 py-3 font-mono text-base text-fg placeholder:text-dim/50 focus:border-accent focus:outline-none"
       />
 
-      <div className="mt-5 flex items-center gap-3">
+      <div className="mt-5 flex flex-wrap items-center gap-3">
         <button
           type="submit"
           disabled={submitting}
-          className="rounded border border-accent/40 bg-accent/10 px-4 py-1.5 font-mono text-xs text-accent transition-colors hover:bg-accent/20 disabled:cursor-not-allowed disabled:opacity-50"
+          className="rounded border border-accent/40 bg-accent/10 px-4 py-3 font-mono text-sm text-accent transition-colors hover:bg-accent/20 disabled:cursor-not-allowed disabled:opacity-50"
         >
           {submitting ? "creating…" : "create account"}
         </button>

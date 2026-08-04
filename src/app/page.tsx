@@ -44,13 +44,13 @@ export default function HomePage() {
         <div className="mt-8 flex flex-wrap gap-3 font-mono text-sm">
           <Link
             href="/blog"
-            className="rounded border border-accent/60 bg-accent/10 px-4 py-2 text-accent transition-colors hover:bg-accent hover:text-bg"
+            className="rounded border border-accent/60 bg-accent/10 px-4 py-3 text-accent transition-colors hover:bg-accent hover:text-bg"
           >
             read the blog →
           </Link>
           <Link
             href="/about"
-            className="rounded border border-line px-4 py-2 text-dim transition-colors hover:border-accent/50 hover:text-fg"
+            className="rounded border border-line px-4 py-3 text-dim transition-colors hover:border-accent/50 hover:text-fg"
           >
             about me
           </Link>
@@ -83,12 +83,12 @@ export default function HomePage() {
             </h2>
             <Link
               href="/blog"
-              className="font-mono text-xs text-dim hover:text-accent"
+              className="py-2 font-mono text-xs text-dim hover:text-accent"
             >
               view all →
             </Link>
           </div>
-          <div className="mt-6 grid gap-4 sm:grid-cols-3">
+          <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {posts.map((p) => (
               <Link
                 key={p.slug}

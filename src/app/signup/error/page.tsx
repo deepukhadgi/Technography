@@ -19,7 +19,7 @@ export default function ErrorPage() {
       <p className="mt-8">
         <Link
           href="/signup"
-          className="rounded border border-accent/40 bg-accent/10 px-4 py-1.5 font-mono text-xs text-accent transition-colors hover:bg-accent/20"
+          className="rounded border border-accent/40 bg-accent/10 px-4 py-3 font-mono text-sm text-accent transition-colors hover:bg-accent/20"
         >
           ← sign up again
         </Link>

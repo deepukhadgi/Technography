@@ -131,7 +131,7 @@ export default function CommentsSection({ slug }: { slug: string }) {
           maxLength={80}
           required
           placeholder="anonymous"
-          className="mt-1 w-full rounded border border-line bg-bg px-3 py-2 font-mono text-sm text-fg placeholder:text-dim/50 focus:border-accent focus:outline-none"
+          className="mt-1 w-full rounded border border-line bg-bg px-3 py-3 font-mono text-base text-fg placeholder:text-dim/50 focus:border-accent focus:outline-none"
         />
         <label className="mt-3 block font-mono text-xs text-dim" htmlFor="c-body">
           comment
@@ -144,13 +144,13 @@ export default function CommentsSection({ slug }: { slug: string }) {
           required
           rows={4}
           placeholder="say something…"
-          className="mt-1 w-full resize-y rounded border border-line bg-bg px-3 py-2 font-mono text-sm text-fg placeholder:text-dim/50 focus:border-accent focus:outline-none"
+          className="mt-1 w-full resize-y rounded border border-line bg-bg px-3 py-3 font-mono text-base text-fg placeholder:text-dim/50 focus:border-accent focus:outline-none"
         />
-        <div className="mt-3 flex items-center gap-3">
+        <div className="mt-3 flex flex-wrap items-center gap-3">
           <button
             type="submit"
             disabled={submitting}
-            className="rounded border border-accent/40 bg-accent/10 px-4 py-1.5 font-mono text-xs text-accent transition-colors hover:bg-accent/20 disabled:cursor-not-allowed disabled:opacity-50"
+            className="rounded border border-accent/40 bg-accent/10 px-4 py-3 font-mono text-sm text-accent transition-colors hover:bg-accent/20 disabled:cursor-not-allowed disabled:opacity-50"
           >
             {submitting ? "posting…" : "post comment"}
           </button>
@@ -191,7 +191,7 @@ export default function CommentsSection({ slug }: { slug: string }) {
                   type="button"
                   onClick={() => vote(c.id, 1)}
                   disabled={voteBusy === c.id}
-                  className={`flex items-center gap-1 transition-colors disabled:opacity-50 ${
+                  className={`flex items-center gap-1 rounded p-2 transition-colors disabled:opacity-50 ${
                     c.myVote === 1 ? "text-accent" : "text-dim hover:text-accent"
                   }`}
                   aria-label="like"
@@ -203,7 +203,7 @@ export default function CommentsSection({ slug }: { slug: string }) {
                   type="button"
                   onClick={() => vote(c.id, -1)}
                   disabled={voteBusy === c.id}
-                  className={`flex items-center gap-1 transition-colors disabled:opacity-50 ${
+                  className={`flex items-center gap-1 rounded p-2 transition-colors disabled:opacity-50 ${
                     c.myVote === -1 ? "text-accent" : "text-dim hover:text-accent"
                   }`}
                   aria-label="dislike"

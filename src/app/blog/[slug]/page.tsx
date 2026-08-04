@@ -48,7 +48,7 @@ export default async function PostPage({ params }: Props) {
     <article className="mx-auto max-w-4xl px-4 py-16">
       <Link
         href="/blog"
-        className="font-mono text-xs text-dim hover:text-accent"
+        className="inline-block py-2 font-mono text-xs text-dim hover:text-accent"
       >
         ← back to blog
       </Link>
@@ -78,7 +78,7 @@ export default async function PostPage({ params }: Props) {
       {subscriber ? (
         <>
           <div
-            className="post-content prose prose-invert prose-sm mt-8 max-w-none text-dim prose-headings:text-fg prose-strong:text-fg"
+            className="post-content prose prose-invert prose-base mt-8 max-w-none text-dim prose-headings:text-fg prose-strong:text-fg"
             dangerouslySetInnerHTML={{ __html: post.contentHtml }}
           />
           {/* client-side comments — hidden from non-subscribers on premium posts */}
@@ -99,7 +99,7 @@ export default async function PostPage({ params }: Props) {
           </p>
           <Link
             href={`/login?next=/blog/${slug}`}
-            className="mt-6 inline-block rounded border border-accent/60 bg-accent/10 px-4 py-2 font-mono text-sm text-accent transition-colors hover:bg-accent hover:text-bg"
+            className="mt-6 inline-block rounded border border-accent/60 bg-accent/10 px-4 py-3 font-mono text-sm text-accent transition-colors hover:bg-accent hover:text-bg"
           >
             log in to read →
           </Link>
