@@ -7,8 +7,8 @@ import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 
-const MEILI_HOST = process.env.MEILI_HOST ?? "http://192.168.1.130:7700";
-const MEILI_MASTER_KEY = process.env.MEILI_MASTER_KEY ?? "";
+const MEILI_HOST = process.env.MEILI_HOST ?? (() => { throw new Error("MEILI_HOST must be set in .env.local — never use the default fallback"); })();
+const MEILI_MASTER_KEY = process.env.MEILI_MASTER_KEY ?? (() => { throw new Error("MEILI_MASTER_KEY must be set in .env.local — never use the default fallback"); })();
 
 if (!MEILI_MASTER_KEY) {
   console.error("MEILI_MASTER_KEY not set — aborting");

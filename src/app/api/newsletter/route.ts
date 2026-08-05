@@ -4,10 +4,10 @@ export const runtime = "nodejs";
 
 export const dynamic = "force-dynamic";
 
-const LISTMONK_URL = process.env.LISTMONK_URL ?? "http://192.168.1.130:9000";
-const LISTMONK_USER = process.env.LISTMONK_USER ?? "listmonk-api";
-const LISTMONK_TOKEN = process.env.LISTMONK_TOKEN ?? "";
-const LISTMONK_LIST_ID = process.env.LISTMONK_LIST_ID ?? "3";
+const LISTMONK_URL = process.env.LISTMONK_URL ?? (() => { throw new Error("LISTMONK_URL must be set in .env.local — never use the default fallback"); })();
+const LISTMONK_USER = process.env.LISTMONK_USER ?? (() => { throw new Error("LISTMONK_USER must be set in .env.local — never use the default fallback"); })();
+const LISTMONK_TOKEN = process.env.LISTMONK_TOKEN ?? (() => { throw new Error("LISTMONK_TOKEN must be set in .env.local — never use the default fallback"); })();
+const LISTMONK_LIST_ID = process.env.LISTMONK_LIST_ID ?? (() => { throw new Error("LISTMONK_LIST_ID must be set in .env.local — never use the default fallback"); })();
 
 function isEmail(s: string): boolean {
   return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(s) && s.length <= 200;
