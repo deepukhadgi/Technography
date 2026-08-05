@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { getAllPosts, getPostBySlug, formatDate, readingTime } from "@/lib/posts";
 import { isSubscriber } from "@/lib/subscriber";
 import CommentsSection from "@/components/CommentsSection";
+import ShareButtons from "@/components/ShareButtons";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -130,47 +131,8 @@ export default async function PostPage({ params }: Props) {
             className="post-content prose prose-invert prose-base mt-8 max-w-none text-dim prose-headings:text-fg prose-strong:text-fg"
             dangerouslySetInnerHTML={{ __html: post.contentHtml }}
           />
-          {/* share links */}
-          <div className="mt-10 flex flex-wrap items-center gap-3 border-t border-line pt-6 font-mono text-xs text-dim">
-            <span className="text-accent">share:</span>
-            {[
-              {
-                label: "x",
-                href: `https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${encodeURIComponent(`https://deepukhadgi.com.np/blog/${slug}`)}`,
-              },
-              {
-                label: "linkedin",
-                href: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(`https://deepukhadgi.com.np/blog/${slug}`)}`,
-              },
-              {
-                label: "whatsapp",
-                href: `https://api.whatsapp.com/send?text=${encodeURIComponent(`${post.title} — https://deepukhadgi.com.np/blog/${slug}`)}`,
-              },
-              {
-                label: "copy link",
-                href: "#",
-                onClick: async (e: React.MouseEvent) => {
-                  e.preventDefault();
-                  try {
-                    await navigator.clipboard.writeText(`https://deepukhadgi.com.np/blog/${slug}`);
-                  } catch {
-                    /* clipboard unavailable */
-                  }
-                },
-              },
-            ].map((s) => (
-              <a
-                key={s.label}
-                href={s.href}
-                onClick={s.onClick as never}
-                target={s.href === "#" ? undefined : "_blank"}
-                rel={s.href === "#" ? undefined : "noopener noreferrer"}
-                className="rounded border border-line px-3 py-1.5 hover:border-accent hover:text-accent"
-              >
-                {s.label}
-              </a>
-            ))}
-          </div>
+          {/* share links (client component — copy-link needs onClick) */}
+          <ShareButtons title={post.title} slug={slug} />
           {/* client-side comments — hidden from non-subscribers on premium posts */}
           <CommentsSection slug={slug} />
         </>
