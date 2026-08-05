@@ -12,7 +12,7 @@ In [part 4](/blog/what-is-honcho) I covered what Honcho is and why it matters. T
 
 ## The Deployment Stack
 
-Honcho runs on my `dockersrv` alongside the mail server and the Technography Postgres. It's a single Docker Compose stack:
+Honcho runs on a Docker server alongside the mail server and the Technography Postgres. It's a single Docker Compose stack:
 
 ```yaml
 # docker-compose.honcho.yml
@@ -101,7 +101,7 @@ volumes:
   honcho-redis-data:
 ```
 
-**Resource allocation on dockersrv (7.7GB total):**
+**Resource allocation on the Docker server (7.7GB total):**
 - Honcho API: ~400MB RAM, 0.5 vCPU
 - Postgres: ~500MB RAM (shared_buffers 256MB + cache)
 - Redis: 256MB RAM max

@@ -95,14 +95,14 @@ in `/etc/ssh/sshd_config.d/hardening.conf`:
 
 ```ini
 PermitRootLogin no
-AllowUsers rwomehyo
+AllowUsers deploy
 X11Forwarding no
 MaxAuthTries 3
 ```
 
 - `PermitRootLogin no` — no root over SSH, ever. Log in as a normal
   user and `sudo`.
-- `AllowUsers rwomehyo` — a whitelist. Anyone not on the list doesn't
+- `AllowUsers deploy` — a whitelist. Anyone not on the list doesn't
   even get to try a password.
 - `X11Forwarding no` — I don't forward X; it's a server.
 - `MaxAuthTries 3` — three password attempts max per connection.

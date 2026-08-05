@@ -31,7 +31,7 @@ piece is open source.
 
 The physical layout is a Proxmox host with two VMs doing real work: one
 webserver VM running nginx and the app, and one Docker server (I call
-it `dockersrv`) running everything else — Postgres, Listmonk, OmniRoute,
+it a separate Docker server) running everything else — Postgres, Listmonk, OmniRoute,
 Honcho. One job per VM, so when something breaks you know exactly which
 box to look at ([my home lab layout](/blog/home-lab-proxmox-docker)).
 

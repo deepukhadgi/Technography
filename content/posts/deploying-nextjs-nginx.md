@@ -1,7 +1,7 @@
 ---
 title: "Deploying this site: Next.js + nginx on a self-hosted server"
 date: "2026-08-01"
-excerpt: "The exact deployment setup behind deepukhadgi.com.np — standalone Next.js build, systemd, and nginx as reverse proxy."
+excerpt: "The exact deployment setup behind a self-hosted Next.js blog — standalone build, systemd, and nginx as reverse proxy."
 tags: ["nginx", "nextjs", "deployment", "self-hosting"]
 ---
 
@@ -69,7 +69,7 @@ nginx terminates the outside traffic and proxies to the app:
 ```nginx
 server {
     listen 80;
-    server_name deepukhadgi.com.np;
+    server_name your-domain.com;
 
     location / {
         proxy_pass http://127.0.0.1:3000;
