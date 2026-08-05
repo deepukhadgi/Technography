@@ -1,6 +1,17 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
+/* ---------------------------------------------------------------------------
+ * Theme tokens. Dark is the DEFAULT (matches the site's original look, and
+ * keeps the no-JS / pre-hydration experience identical). A `.light` class on
+ * <html> (set by the inline script in layout.tsx and by ThemeProvider)
+ * overrides the tokens for light mode.
+ *
+ * Tailwind v4 `@theme inline` makes utilities reference `var(--color-*)`
+ * inline, so overriding these variables at runtime re-themes every utility
+ * (bg-bg, bg-panel, text-fg, text-dim, text-accent, border-line, ...)
+ * without touching any component class.
+ * ------------------------------------------------------------------------ */
 @theme inline {
   --color-bg: #0a0e0c;
   --color-panel: #0f1512;
@@ -14,13 +25,61 @@
   --font-mono: var(--font-geist-mono);
 }
 
+/* Dark code surfaces (default) — separate vars so .light can flip them. */
+:root {
+  --code-bg: #0c110e;
+  --code-inline-bg: #142019;
+  --code-inline-fg: #6ee7b7;
+}
+
+/* Light theme overrides. Unlayered author CSS beats the @layer theme tokens
+ * emitted by @theme, so these win regardless of source order. */
+.light {
+  --color-bg: #f4f7f5;
+  --color-panel: #ffffff;
+  --color-line: #d8e1db;
+  --color-fg: #16211c;
+  --color-dim: #55665e;
+  --color-accent: #059669;
+  --color-accent-dim: #10b981;
+  --color-cyan: #0891b2;
+  --code-bg: #eef2ef;
+  --code-inline-bg: #e2e9e4;
+  --code-inline-fg: #047857;
+}
+
+/* Light-mode prose. Posts render with `prose prose-invert`; .prose-invert
+ * remaps --tw-prose-* onto the --tw-prose-invert-* tokens defined on .prose,
+ * so redefining the invert tokens under .light re-themes article text
+ * (body, headings, links, code, tables, ...). */
+.light .prose {
+  --tw-prose-invert-body: #3c4a43;
+  --tw-prose-invert-headings: #16211c;
+  --tw-prose-invert-lead: #55665e;
+  --tw-prose-invert-links: #047857;
+  --tw-prose-invert-bold: #16211c;
+  --tw-prose-invert-counters: #55665e;
+  --tw-prose-invert-bullets: #9fb2a8;
+  --tw-prose-invert-hr: #d8e1db;
+  --tw-prose-invert-quotes: #16211c;
+  --tw-prose-invert-quote-borders: #d8e1db;
+  --tw-prose-invert-captions: #55665e;
+  --tw-prose-invert-kbd: #16211c;
+  --tw-prose-invert-kbd-shadows: rgb(22 33 28 / 10%);
+  --tw-prose-invert-code: #047857;
+  --tw-prose-invert-pre-code: #2b3730;
+  --tw-prose-invert-pre-bg: #eef2ef;
+  --tw-prose-invert-th-borders: #c6d2ca;
+  --tw-prose-invert-td-borders: #d8e1db;
+}
+
 ::selection {
-  background: #34d399;
-  color: #0a0e0c;
+  background: var(--color-accent);
+  color: var(--color-bg);
 }
 
 html {
-  scrollbar-color: #1e2924 #0a0e0c;
+  scrollbar-color: var(--color-line) var(--color-bg);
 }
 
 body {
@@ -49,22 +108,22 @@ body {
 
 /* blog content typography */
 .post-content pre {
-  background: #0c110e;
-  border: 1px solid #1e2924;
+  background: var(--code-bg);
+  border: 1px solid var(--color-line);
   border-radius: 0.5rem;
   padding: 1rem;
   overflow-x: auto;
   font-size: 0.85rem;
 }
 .post-content code:not(pre code) {
-  background: #142019;
-  color: #6ee7b7;
+  background: var(--code-inline-bg);
+  color: var(--code-inline-fg);
   padding: 0.1rem 0.35rem;
   border-radius: 0.25rem;
   font-size: 0.85em;
 }
 .post-content a {
-  color: #34d399;
+  color: var(--color-accent);
   text-decoration: underline;
   text-underline-offset: 3px;
 }
@@ -77,7 +136,7 @@ body {
 }
 .post-content h2::before {
   content: "## ";
-  color: #34d399;
+  color: var(--color-accent);
 }
 
 /* --- responsive hardening --- */

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { getAllPosts, formatDate } from "@/lib/posts";
+import SearchBox from "@/components/SearchBox";
 
 export const metadata: Metadata = { title: "Blog" };
 
@@ -20,6 +21,10 @@ export default function BlogPage() {
         New posts as I learn and build.
       </p>
 
+      <div className="mt-8">
+        <SearchBox />
+      </div>
+
       <div className="mt-10 space-y-4">
         {posts.map((p) => (
           <Link
@@ -30,12 +35,13 @@ export default function BlogPage() {
             <div className="flex flex-wrap items-center gap-3 font-mono text-xs text-dim">
               <time>{formatDate(p.date)}</time>
               {p.tags.map((t) => (
-                <span
+                <Link
                   key={t}
-                  className="rounded border border-line px-2 py-0.5 text-[10px] text-dim/80"
+                  href={`/blog/tag/${encodeURIComponent(t)}`}
+                  className="rounded border border-line px-2 py-0.5 text-[10px] text-dim/80 transition-colors hover:border-accent hover:text-accent"
                 >
                   {t}
-                </span>
+                </Link>
               ))}
             </div>
             <h2 className="mt-2 font-mono text-base font-bold group-hover:text-accent">

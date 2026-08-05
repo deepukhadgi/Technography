@@ -19,9 +19,12 @@ export async function POST(req: NextRequest) {
     return Response.json({ error: "Invalid JSON body" }, { status: 400 });
   }
 
-  const { email, password, hp } = (payload ?? {}) as {
+  const { email, password, confirmPassword, firstName, lastName, hp } = (payload ?? {}) as {
     email?: unknown;
     password?: unknown;
+    confirmPassword?: unknown;
+    firstName?: unknown;
+    lastName?: unknown;
     hp?: unknown;
   };
 
@@ -32,12 +35,24 @@ export async function POST(req: NextRequest) {
 
   const normalizedEmail = typeof email === "string" ? email.trim().toLowerCase() : "";
   const pw = typeof password === "string" ? password : "";
+  const cpw = typeof confirmPassword === "string" ? confirmPassword : "";
+  const fn = typeof firstName === "string" ? firstName.trim() : "";
+  const ln = typeof lastName === "string" ? lastName.trim() : "";
 
   if (!EMAIL_RE.test(normalizedEmail) || normalizedEmail.length > 254) {
     return Response.json({ error: "Enter a valid email address" }, { status: 400 });
   }
+  if (!fn || fn.length > 100) {
+    return Response.json({ error: "First name is required (max 100 chars)" }, { status: 400 });
+  }
+  if (!ln || ln.length > 100) {
+    return Response.json({ error: "Last name is required (max 100 chars)" }, { status: 400 });
+  }
   if (pw.length < 8 || pw.length > 200) {
     return Response.json({ error: "Password must be at least 8 characters" }, { status: 400 });
+  }
+  if (pw !== cpw) {
+    return Response.json({ error: "Passwords do not match" }, { status: 400 });
   }
 
   const ip = clientIp(req);
@@ -70,10 +85,10 @@ export async function POST(req: NextRequest) {
   let userId: number;
   try {
     const inserted = await pool.query<{ id: number }>(
-      `INSERT INTO users (email, password_hash, verification_token, verification_token_expires)
-       VALUES ($1, $2, $3, $4)
+      `INSERT INTO users (email, password_hash, first_name, last_name, verification_token, verification_token_expires)
+       VALUES ($1, $2, $3, $4, $5, $6)
        RETURNING id`,
-      [normalizedEmail, passwordHash, verificationToken, expires]
+      [normalizedEmail, passwordHash, fn, ln, verificationToken, expires]
     );
     userId = inserted.rows[0].id;
   } catch (err: unknown) {
@@ -86,7 +101,7 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    await sendVerificationEmail(normalizedEmail, verificationToken);
+    await sendVerificationEmail(normalizedEmail, verificationToken, fn);
   } catch (err) {
     console.error("verification email failed:", err);
     // Don't pretend success — remove the row so the user can retry cleanly.

@@ -45,6 +45,16 @@ export function getAllPosts(): PostMeta[] {
     .sort((a, b) => (a.date < b.date ? 1 : -1));
 }
 
+export function getAllTags(): string[] {
+  const tags = new Set<string>();
+  for (const post of getAllPosts()) {
+    for (const tag of post.tags) {
+      tags.add(tag);
+    }
+  }
+  return [...tags].sort((a, b) => a.localeCompare(b));
+}
+
 export async function getPostBySlug(slug: string): Promise<Post> {
   const { meta, content } = parseFile(slug);
   const processed = await remark().use(html).process(content);
@@ -60,4 +70,10 @@ export function formatDate(dateStr: string): string {
     month: "short",
     day: "numeric",
   });
+}
+
+/** Rough reading time: ~200 wpm, min 1 minute. */
+export function readingTime(content: string): number {
+  const words = content.trim().split(/\s+/).length;
+  return Math.max(1, Math.round(words / 200));
 }

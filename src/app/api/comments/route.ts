@@ -7,6 +7,8 @@ import {
   buildVoterCookieValue,
   voterCookieOptions,
 } from "@/lib/voter";
+import { sendReplyNotificationEmail } from "@/lib/mail";
+import { getPostBySlug } from "@/lib/posts";
 
 export const runtime = "nodejs";
 
@@ -20,6 +22,7 @@ type CommentRow = {
   post_slug: string;
   author_name: string;
   body: string;
+  parent_id: number | null;
   created_at: Date;
   likes: number;
   dislikes: number;
@@ -32,6 +35,7 @@ function toComment(c: CommentRow) {
     postSlug: c.post_slug,
     authorName: c.author_name,
     body: c.body,
+    parentId: c.parent_id,
     createdAt: c.created_at.toISOString(),
     likes: c.likes,
     dislikes: c.dislikes,
@@ -68,6 +72,7 @@ export async function GET(req: NextRequest) {
             c.post_slug,
             c.author_name,
             c.body,
+            c.parent_id,
             c.created_at,
             COALESCE(s.likes, 0)::int  AS likes,
             COALESCE(s.dislikes, 0)::int AS dislikes,
@@ -98,11 +103,13 @@ export async function POST(req: NextRequest) {
     return Response.json({ error: "Invalid JSON body" }, { status: 400 });
   }
 
-  const { postSlug, authorName, body, hp } = (payload ?? {}) as {
+  const { postSlug, authorName, body, hp, parentId, notifyEmail } = (payload ?? {}) as {
     postSlug?: unknown;
     authorName?: unknown;
     body?: unknown;
     hp?: unknown;
+    parentId?: unknown;
+    notifyEmail?: unknown;
   };
 
   // Honeypot: bots that fill the hidden field get a fake success, nothing stored.
@@ -113,6 +120,11 @@ export async function POST(req: NextRequest) {
   const slug = typeof postSlug === "string" ? postSlug.trim() : "";
   const name = stripHtml(typeof authorName === "string" ? authorName.trim() : "");
   const text = stripHtml(typeof body === "string" ? body.trim() : "");
+  const parentIdNum = typeof parentId === "number" && Number.isInteger(parentId) ? parentId : null;
+  const notifyEmailStr =
+    typeof notifyEmail === "string"
+      ? notifyEmail.trim().toLowerCase().slice(0, 200)
+      : "";
 
   if (!slug || slug.length > 200) {
     return Response.json({ error: "postSlug must be 1-200 characters" }, { status: 400 });
@@ -125,13 +137,55 @@ export async function POST(req: NextRequest) {
   }
 
   const pool = getPool();
+
+  // If replying, the parent must exist and belong to the same post.
+  let parentEmail: string | null = null;
+  if (parentIdNum !== null) {
+    const parent = await pool.query<{ notify_email: string | null; post_slug: string }>(
+      "SELECT notify_email, post_slug FROM comments WHERE id = $1",
+      [parentIdNum]
+    );
+    if (parent.rowCount === 0) {
+      return Response.json({ error: "Parent comment not found" }, { status: 400 });
+    }
+    if (parent.rows[0].post_slug !== slug) {
+      return Response.json({ error: "Parent comment is on a different post" }, { status: 400 });
+    }
+    parentEmail = parent.rows[0].notify_email;
+  }
+
   const result = await pool.query<CommentRow>(
-    `INSERT INTO comments (post_slug, author_name, body)
-     VALUES ($1, $2, $3)
-     RETURNING id, post_slug, author_name, body, created_at,
+    `INSERT INTO comments (post_slug, author_name, body, parent_id, notify_email)
+     VALUES ($1, $2, $3, $4, $5)
+     RETURNING id, post_slug, author_name, body, parent_id, created_at,
                0::int AS likes, 0::int AS dislikes, NULL::int AS my_vote`,
-    [slug, name, text]
+    [slug, name, text, parentIdNum, notifyEmailStr || null]
   );
+
+  // Fire-and-forget reply notification email (never block the response).
+  if (parentIdNum !== null && parentEmail) {
+    try {
+      let postTitle = slug;
+      try {
+        const post = await getPostBySlug(slug);
+        postTitle = post.title;
+      } catch {
+        /* post metadata unavailable — fall back to slug */
+      }
+      void sendReplyNotificationEmail({
+        to: parentEmail,
+        commenterName: name,
+        replyBody: text,
+        postTitle,
+        postSlug: slug,
+        commentUrl: `${process.env.APP_URL ?? "https://deepukhadgi.com.np"}/blog/${slug}#comment-${result.rows[0].id}`,
+      }).catch(() => {
+        /* email failure must not break commenting */
+      });
+    } catch {
+      /* ignore */
+    }
+  }
 
   return Response.json({ ok: true, comment: toComment(result.rows[0]) }, { status: 201 });
 }

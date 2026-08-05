@@ -7,6 +7,7 @@ type Comment = {
   postSlug: string;
   authorName: string;
   body: string;
+  parentId: number | null;
   createdAt: string;
   likes: number;
   dislikes: number;
@@ -20,6 +21,8 @@ export default function CommentsSection({ slug }: { slug: string }) {
   const [authorName, setAuthorName] = useState("");
   const [body, setBody] = useState("");
   const [hp, setHp] = useState("");
+  const [notifyEmail, setNotifyEmail] = useState("");
+  const [replyingTo, setReplyingTo] = useState<Comment | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [voteBusy, setVoteBusy] = useState<number | null>(null);
 
@@ -50,7 +53,14 @@ export default function CommentsSection({ slug }: { slug: string }) {
       const res = await fetch("/api/comments", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ postSlug: slug, authorName, body, hp }),
+        body: JSON.stringify({
+          postSlug: slug,
+          authorName,
+          body,
+          hp,
+          parentId: replyingTo?.id ?? null,
+          notifyEmail: notifyEmail.trim() || undefined,
+        }),
       });
       if (!res.ok) {
         const data = (await res.json().catch(() => null)) as { error?: string } | null;
@@ -59,6 +69,8 @@ export default function CommentsSection({ slug }: { slug: string }) {
       }
       setAuthorName("");
       setBody("");
+      setNotifyEmail("");
+      setReplyingTo(null);
       await load();
     } catch {
       setError("Could not post comment.");
@@ -95,6 +107,9 @@ export default function CommentsSection({ slug }: { slug: string }) {
     }
   }
 
+  const topLevel = comments.filter((c) => c.parentId === null);
+  const repliesOf = (id: number) => comments.filter((c) => c.parentId === id);
+
   return (
     <section className="mt-14 border-t border-line pt-8" id="comments">
       <h2 className="font-mono text-xl font-bold">
@@ -120,6 +135,20 @@ export default function CommentsSection({ slug }: { slug: string }) {
           aria-hidden="true"
           className="hidden"
         />
+        {replyingTo && (
+          <p className="mb-3 flex items-center justify-between gap-2 rounded border border-accent/30 bg-accent/5 px-3 py-2 font-mono text-xs text-accent">
+            <span>
+              → replying to <strong>{replyingTo.authorName}</strong>
+            </span>
+            <button
+              type="button"
+              onClick={() => setReplyingTo(null)}
+              className="underline hover:opacity-70"
+            >
+              cancel
+            </button>
+          </p>
+        )}
         <label className="block font-mono text-xs text-dim" htmlFor="c-author">
           name
         </label>
@@ -146,6 +175,21 @@ export default function CommentsSection({ slug }: { slug: string }) {
           placeholder="say something…"
           className="mt-1 w-full resize-y rounded border border-line bg-bg px-3 py-3 font-mono text-base text-fg placeholder:text-dim/50 focus:border-accent focus:outline-none"
         />
+        <label
+          className="mt-3 flex items-center gap-2 font-mono text-xs text-dim"
+          htmlFor="c-notify"
+        >
+          <input
+            id="c-notify"
+            type="email"
+            value={notifyEmail}
+            onChange={(e) => setNotifyEmail(e.target.value)}
+            maxLength={200}
+            placeholder="you@example.com"
+            className="w-56 rounded border border-line bg-bg px-3 py-2 font-mono text-sm text-fg placeholder:text-dim/50 focus:border-accent focus:outline-none"
+          />
+          <span>email me when someone replies</span>
+        </label>
         <div className="mt-3 flex flex-wrap items-center gap-3">
           <button
             type="submit"
@@ -169,52 +213,112 @@ export default function CommentsSection({ slug }: { slug: string }) {
         )}
 
         {!loading &&
-          comments.map((c) => (
-            <div
+          topLevel.map((c) => (
+            <CommentThread
               key={c.id}
-              className="border-b border-line py-4 last:border-b-0"
-            >
-              <div className="flex flex-wrap items-center gap-2 font-mono text-xs text-dim">
-                <span className="text-accent">{c.authorName}</span>
-                <span className="text-line">|</span>
-                <time dateTime={c.createdAt}>
-                  {new Date(c.createdAt).toLocaleDateString("en-US", {
-                    year: "numeric",
-                    month: "short",
-                    day: "numeric",
-                  })}
-                </time>
-              </div>
-              <p className="mt-2 whitespace-pre-wrap text-sm text-fg">{c.body}</p>
-              <div className="mt-2 flex items-center gap-4 font-mono text-xs">
-                <button
-                  type="button"
-                  onClick={() => vote(c.id, 1)}
-                  disabled={voteBusy === c.id}
-                  className={`flex items-center gap-1 rounded p-2 transition-colors disabled:opacity-50 ${
-                    c.myVote === 1 ? "text-accent" : "text-dim hover:text-accent"
-                  }`}
-                  aria-label="like"
-                >
-                  <span aria-hidden>▲</span>
-                  <span>{c.likes}</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => vote(c.id, -1)}
-                  disabled={voteBusy === c.id}
-                  className={`flex items-center gap-1 rounded p-2 transition-colors disabled:opacity-50 ${
-                    c.myVote === -1 ? "text-accent" : "text-dim hover:text-accent"
-                  }`}
-                  aria-label="dislike"
-                >
-                  <span aria-hidden>▼</span>
-                  <span>{c.dislikes}</span>
-                </button>
-              </div>
-            </div>
+              comment={c}
+              replies={repliesOf(c.id)}
+              vote={vote}
+              voteBusy={voteBusy}
+              onReply={setReplyingTo}
+            />
           ))}
       </div>
     </section>
+  );
+}
+
+function CommentThread({
+  comment: c,
+  replies,
+  vote,
+  voteBusy,
+  onReply,
+}: {
+  comment: Comment;
+  replies: Comment[];
+  vote: (id: number, value: 1 | -1) => Promise<void>;
+  voteBusy: number | null;
+  onReply: (c: Comment) => void;
+}) {
+  return (
+    <div id={`comment-${c.id}`} className="scroll-mt-20">
+      <CommentBody comment={c} vote={vote} voteBusy={voteBusy} onReply={onReply} />
+      {replies.length > 0 && (
+        <div className="ml-5 border-l border-line pl-4 sm:ml-8">
+          {replies.map((r) => (
+            <CommentBody
+              key={r.id}
+              comment={r}
+              vote={vote}
+              voteBusy={voteBusy}
+              onReply={onReply}
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function CommentBody({
+  comment: c,
+  vote,
+  voteBusy,
+  onReply,
+}: {
+  comment: Comment;
+  vote: (id: number, value: 1 | -1) => Promise<void>;
+  voteBusy: number | null;
+  onReply: (c: Comment) => void;
+}) {
+  return (
+    <div className="border-b border-line py-4 last:border-b-0">
+      <div className="flex flex-wrap items-center gap-2 font-mono text-xs text-dim">
+        <span className="text-accent">{c.authorName}</span>
+        <span className="text-line">|</span>
+        <time dateTime={c.createdAt}>
+          {new Date(c.createdAt).toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "short",
+            day: "numeric",
+          })}
+        </time>
+      </div>
+      <p className="mt-2 whitespace-pre-wrap text-sm text-fg">{c.body}</p>
+      <div className="mt-2 flex items-center gap-4 font-mono text-xs">
+        <button
+          type="button"
+          onClick={() => vote(c.id, 1)}
+          disabled={voteBusy === c.id}
+          className={`flex items-center gap-1 rounded p-2 transition-colors disabled:opacity-50 ${
+            c.myVote === 1 ? "text-accent" : "text-dim hover:text-accent"
+          }`}
+          aria-label="like"
+        >
+          <span aria-hidden>▲</span>
+          <span>{c.likes}</span>
+        </button>
+        <button
+          type="button"
+          onClick={() => vote(c.id, -1)}
+          disabled={voteBusy === c.id}
+          className={`flex items-center gap-1 rounded p-2 transition-colors disabled:opacity-50 ${
+            c.myVote === -1 ? "text-accent" : "text-dim hover:text-accent"
+          }`}
+          aria-label="dislike"
+        >
+          <span aria-hidden>▼</span>
+          <span>{c.dislikes}</span>
+        </button>
+        <button
+          type="button"
+          onClick={() => onReply(c)}
+          className="rounded p-2 text-dim transition-colors hover:text-accent"
+        >
+          reply
+        </button>
+      </div>
+    </div>
   );
 }

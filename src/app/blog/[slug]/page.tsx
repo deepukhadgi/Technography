@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getAllPosts, getPostBySlug, formatDate } from "@/lib/posts";
+import { getAllPosts, getPostBySlug, formatDate, readingTime } from "@/lib/posts";
 import { isSubscriber } from "@/lib/subscriber";
 import CommentsSection from "@/components/CommentsSection";
 
@@ -25,7 +25,34 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   try {
     const post = await getPostBySlug(slug);
-    return { title: post.title };
+    // Dynamic OG card: /api/og renders a 1200x630 PNG from these params.
+    const ogImageUrl = `/api/og?title=${encodeURIComponent(post.title)}&tags=${encodeURIComponent(
+      post.tags.join(",")
+    )}&excerpt=${encodeURIComponent(post.excerpt)}&slug=${encodeURIComponent(slug)}`;
+    return {
+      title: post.title,
+      description: post.excerpt,
+      openGraph: {
+        title: post.title,
+        description: post.excerpt,
+        type: "article",
+        url: `/blog/${slug}`,
+        images: [
+          {
+            url: ogImageUrl,
+            width: 1200,
+            height: 630,
+            alt: "Technography",
+          },
+        ],
+      },
+      twitter: {
+        card: "summary_large_image",
+        title: post.title,
+        description: post.excerpt,
+        images: [ogImageUrl],
+      },
+    };
   } catch {
     return { title: "Post not found" };
   }
@@ -46,6 +73,26 @@ export default async function PostPage({ params }: Props) {
 
   return (
     <article className="mx-auto max-w-4xl px-4 py-16">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BlogPosting",
+            headline: post.title,
+            datePublished: post.date,
+            dateModified: post.date,
+            description: post.excerpt,
+            keywords: post.tags.join(", "),
+            author: { "@type": "Person", name: "Deepu Khadgi", url: "https://deepukhadgi.com.np" },
+            publisher: {
+              "@type": "Person",
+              name: "Deepu Khadgi",
+            },
+            mainEntityOfPage: `https://deepukhadgi.com.np/blog/${slug}`,
+          }),
+        }}
+      />
       <Link
         href="/blog"
         className="inline-block py-2 font-mono text-xs text-dim hover:text-accent"
@@ -56,6 +103,8 @@ export default async function PostPage({ params }: Props) {
       <header className="mt-6">
         <div className="flex flex-wrap items-center gap-3 font-mono text-xs text-dim">
           <time>{formatDate(post.date)}</time>
+          <span aria-hidden="true">·</span>
+          <span>{readingTime(post.contentHtml.replace(/<[^>]+>/g, " "))} min read</span>
           {post.tags.map((t) => (
             <span
               key={t}
@@ -81,6 +130,47 @@ export default async function PostPage({ params }: Props) {
             className="post-content prose prose-invert prose-base mt-8 max-w-none text-dim prose-headings:text-fg prose-strong:text-fg"
             dangerouslySetInnerHTML={{ __html: post.contentHtml }}
           />
+          {/* share links */}
+          <div className="mt-10 flex flex-wrap items-center gap-3 border-t border-line pt-6 font-mono text-xs text-dim">
+            <span className="text-accent">share:</span>
+            {[
+              {
+                label: "x",
+                href: `https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${encodeURIComponent(`https://deepukhadgi.com.np/blog/${slug}`)}`,
+              },
+              {
+                label: "linkedin",
+                href: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(`https://deepukhadgi.com.np/blog/${slug}`)}`,
+              },
+              {
+                label: "whatsapp",
+                href: `https://api.whatsapp.com/send?text=${encodeURIComponent(`${post.title} — https://deepukhadgi.com.np/blog/${slug}`)}`,
+              },
+              {
+                label: "copy link",
+                href: "#",
+                onClick: async (e: React.MouseEvent) => {
+                  e.preventDefault();
+                  try {
+                    await navigator.clipboard.writeText(`https://deepukhadgi.com.np/blog/${slug}`);
+                  } catch {
+                    /* clipboard unavailable */
+                  }
+                },
+              },
+            ].map((s) => (
+              <a
+                key={s.label}
+                href={s.href}
+                onClick={s.onClick as never}
+                target={s.href === "#" ? undefined : "_blank"}
+                rel={s.href === "#" ? undefined : "noopener noreferrer"}
+                className="rounded border border-line px-3 py-1.5 hover:border-accent hover:text-accent"
+              >
+                {s.label}
+              </a>
+            ))}
+          </div>
           {/* client-side comments — hidden from non-subscribers on premium posts */}
           <CommentsSection slug={slug} />
         </>

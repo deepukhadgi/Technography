@@ -7,6 +7,9 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 export default function SignupForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [hp, setHp] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
@@ -20,8 +23,20 @@ export default function SignupForm() {
       setError("enter a valid email address");
       return;
     }
+    if (!firstName.trim()) {
+      setError("first name is required");
+      return;
+    }
+    if (!lastName.trim()) {
+      setError("last name is required");
+      return;
+    }
     if (password.length < 8) {
       setError("password must be at least 8 characters");
+      return;
+    }
+    if (password !== confirmPassword) {
+      setError("passwords do not match");
       return;
     }
 
@@ -30,7 +45,14 @@ export default function SignupForm() {
       const res = await fetch("/api/auth/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: email.trim(), password, hp }),
+        body: JSON.stringify({
+          email: email.trim(),
+          password,
+          confirmPassword,
+          firstName: firstName.trim(),
+          lastName: lastName.trim(),
+          hp,
+        }),
       });
       if (res.status === 429) {
         setError("too many attempts — try again later");
@@ -74,7 +96,41 @@ export default function SignupForm() {
         className="hidden"
       />
 
-      <label className="block font-mono text-xs text-dim" htmlFor="s-email">
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <label className="block font-mono text-xs text-dim" htmlFor="s-first-name">
+            first name
+          </label>
+          <input
+            id="s-first-name"
+            type="text"
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
+            required
+            autoComplete="given-name"
+            placeholder="John"
+            className="mt-1 w-full rounded border border-line bg-panel px-3 py-3 font-mono text-base text-fg placeholder:text-dim/50 focus:border-accent focus:outline-none"
+          />
+        </div>
+
+        <div>
+          <label className="block font-mono text-xs text-dim" htmlFor="s-last-name">
+            last name
+          </label>
+          <input
+            id="s-last-name"
+            type="text"
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
+            required
+            autoComplete="family-name"
+            placeholder="Doe"
+            className="mt-1 w-full rounded border border-line bg-panel px-3 py-3 font-mono text-base text-fg placeholder:text-dim/50 focus:border-accent focus:outline-none"
+          />
+        </div>
+      </div>
+
+      <label className="mt-4 block font-mono text-xs text-dim" htmlFor="s-email">
         email
       </label>
       <input
@@ -103,16 +159,37 @@ export default function SignupForm() {
         className="mt-1 w-full rounded border border-line bg-panel px-3 py-3 font-mono text-base text-fg placeholder:text-dim/50 focus:border-accent focus:outline-none"
       />
 
-      <div className="mt-5 flex flex-wrap items-center gap-3">
-        <button
-          type="submit"
-          disabled={submitting}
-          className="rounded border border-accent/40 bg-accent/10 px-4 py-3 font-mono text-sm text-accent transition-colors hover:bg-accent/20 disabled:cursor-not-allowed disabled:opacity-50"
-        >
-          {submitting ? "creating…" : "create account"}
-        </button>
-        {error && <p className="font-mono text-xs text-red-400">{error}</p>}
-      </div>
+      <label className="mt-4 block font-mono text-xs text-dim" htmlFor="s-confirm-password">
+        confirm password
+      </label>
+      <input
+        id="s-confirm-password"
+        type="password"
+        value={confirmPassword}
+        onChange={(e) => setConfirmPassword(e.target.value)}
+        required
+        minLength={8}
+        autoComplete="new-password"
+        placeholder="repeat password"
+        className="mt-1 w-full rounded border border-line bg-panel px-3 py-3 font-mono text-base text-fg placeholder:text-dim/50 focus:border-accent focus:outline-none"
+      />
+
+      {error && <p className="mt-4 text-sm text-red-400">{error}</p>}
+
+      <button
+        type="submit"
+        disabled={submitting}
+        className="mt-6 w-full rounded border border-accent/60 bg-accent/10 px-4 py-3 font-mono text-sm text-accent transition-colors hover:bg-accent hover:text-bg disabled:opacity-50"
+      >
+        {submitting ? "creating..." : "create account →"}
+      </button>
+
+      <p className="mt-4 text-center text-xs text-dim">
+        already have an account?{" "}
+        <a href="/login" className="underline hover:text-accent">
+          login
+        </a>
+      </p>
     </form>
   );
 }

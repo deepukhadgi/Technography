@@ -48,6 +48,13 @@ export default function SiteNav() {
         } w-full flex-col gap-1 border-t border-line pb-1 pt-3 sm:flex sm:w-auto sm:flex-row sm:items-center sm:gap-5 sm:border-0 sm:pb-0 sm:pt-0`}
       >
         <AuthNav onNavigate={() => setOpen(false)} />
+        <Link
+          href="/newsletter"
+          onClick={() => setOpen(false)}
+          className="py-3 text-dim transition-colors hover:text-accent sm:py-0"
+        >
+          newsletter
+        </Link>
       </div>
     </nav>
   );

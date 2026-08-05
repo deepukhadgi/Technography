@@ -38,8 +38,8 @@ export async function POST(req: NextRequest) {
 
   const pool = getPool();
 
-  const result = await pool.query<{ id: number; password_hash: string; email_verified: boolean }>(
-    "SELECT id, password_hash, email_verified FROM users WHERE email = $1",
+  const result = await pool.query<{ id: number; password_hash: string; email_verified: boolean; first_name: string }>(
+    "SELECT id, password_hash, email_verified, first_name FROM users WHERE email = $1",
     [normalizedEmail]
   );
 
@@ -58,5 +58,5 @@ export async function POST(req: NextRequest) {
 
   await createSession(result.rows[0].id, normalizedEmail);
 
-  return Response.json({ ok: true, email: normalizedEmail });
+  return Response.json({ ok: true, email: normalizedEmail, firstName: result.rows[0].first_name });
 }

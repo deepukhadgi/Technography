@@ -35,6 +35,17 @@ export default function LoginForm({
         setError(data.error ?? "Login failed");
       } else {
         setSuccess(true);
+        // Stash the welcome message so the global WelcomeToast can show it
+        // on the destination page after the redirect (full page load would
+        // otherwise kill an inline toast immediately).
+        const firstName =
+          typeof data.firstName === "string" && data.firstName.length > 0
+            ? data.firstName
+            : null;
+        sessionStorage.setItem(
+          "welcome_toast",
+          firstName ? `Welcome back, ${firstName}!` : "Welcome back!"
+        );
         const dest = safeNextPath(nextPath);
         setTimeout(() => (window.location.href = dest), 800);
       }
@@ -95,6 +106,15 @@ export default function LoginForm({
           placeholder="min 8 characters"
         />
       </div>
+
+      <p className="text-right">
+        <a
+          href="/forgot-password"
+          className="text-xs font-mono text-dim underline hover:text-accent"
+        >
+          Forgot password?
+        </a>
+      </p>
 
       {error && (
         <p className="text-sm text-red-400">{error}</p>

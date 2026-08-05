@@ -73,6 +73,12 @@ export async function getSession(): Promise<SessionPayload | null> {
 
   if (user.rowCount === 0) return null;
 
+  // Update last_activity_at on every authenticated request
+  await pool.query(
+    "UPDATE sessions SET last_activity_at = now() WHERE token = $1",
+    [token]
+  );
+
   return { userId: result.rows[0].user_id, email: user.rows[0].email };
 }
 
