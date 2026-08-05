@@ -1,0 +1,26 @@
+# Blog Topic Queue
+# Format: - [topic] | tags | public/subscriber | status
+# Status: pending, drafted, published
+
+## Public Posts (DevOps tutorials, homelab guides)
+
+- [ ] How I Hardened My Webserver in 10 Minutes — UFW + fail2ban + SSH | security,linux,ubuntu,homelab | public | pending
+- [ ] Deploying Listmonk: Self-Hosted Newsletter in 5 Commands | self-hosting,docker,newsletter,listmonk | public | pending
+- [ ] Meilisearch on Docker: Blazing Fast Full-Text Search for Your Blog | self-hosting,docker,search,meilisearch | public | pending
+- [ ] Umami vs Google Analytics: Why I Switched to Privacy-First Analytics | analytics,privacy,umami,self-hosting | public | pending
+- [ ] Setting Up Proxmox VE for a Multi-VM Homelab | proxmox,virtualization,homelab,linux | public | pending
+- [ ] Next.js 16 Standalone Deployment: The Complete Guide | nextjs,deployment,nginx,ubuntu | public | pending
+- [ ] Cloudflare + Self-Hosted: SSL, Proxy, and DNS for Homelabbers | cloudflare,networking,ssl,security | public | pending
+- [ ] Postfix + OpenDKIM: Self-Hosted Mail Server That Actually Works | mail,postfix,dkim,smtp,linux | public | pending
+- [ ] Docker Networking 101: Connecting Containers Across Services | docker,networking,containers,linux | public | pending
+- [ ] Nginx Reverse Proxy: From Zero to Production | nginx,reverse-proxy,linux,ssl | public | pending
+
+## Subscriber Posts (Deep dives, behind-the-scenes)
+
+- [ ] Building a Self-Hosted Blog with AI-Powered Automation | ai,automation,blog,self-hosting,hermes | subscriber | pending
+- [ ] The Complete Technography Stack: Every Tool, Every Config | self-hosting,stack,infrastructure,architecture | subscriber | pending
+- [ ] Running AI Agents on a Budget: OmniRoute + Hermes Agent | ai,self-hosting,omni,hermes | subscriber | pending
+- [ ] Honcho Deep Dive Part 2: Production Tuning and Scaling | honcho,ai,memory,performance | subscriber | pending
+- [ ] How I Automated My DevOps with an AI Agent | ai,devops,automation,hermes | subscriber | pending
+- [ ] Cloudflare Email Routing: Free Email for Your Domain | cloudflare,email,dns,setup | subscriber | pending
+- [ ] From Zero to Subscriber: Building Auth + Premium Gating in Next.js | nextjs,auth,premium,javascript | subscriber | pending
