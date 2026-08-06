@@ -50,6 +50,8 @@ export async function createSession(userId: number, email: string): Promise<stri
   return token;
 }
 
+const IDLE_TIMEOUT_MINUTES = 30;
+
 export async function getSession(): Promise<SessionPayload | null> {
   const cookieStore = await cookies();
   const signed = cookieStore.get(COOKIE_NAME)?.value;
@@ -59,12 +61,23 @@ export async function getSession(): Promise<SessionPayload | null> {
   if (!token) return null;
 
   const pool = getPool();
-  const result = await pool.query<{ user_id: number }>(
-    "SELECT user_id FROM sessions WHERE token = $1 AND expires_at > now()",
+  const result = await pool.query<{ user_id: number; last_activity_at: string }>(
+    "SELECT user_id, last_activity_at FROM sessions WHERE token = $1 AND expires_at > now()",
     [token]
   );
 
   if (result.rowCount === 0) return null;
+
+  // Check if session has been idle for more than 30 minutes
+  const lastActivity = new Date(result.rows[0].last_activity_at);
+  const now = new Date();
+  const idleMinutes = (now.getTime() - lastActivity.getTime()) / (1000 * 60);
+
+  if (idleMinutes > IDLE_TIMEOUT_MINUTES) {
+    // Session has expired due to inactivity - delete it
+    await pool.query("DELETE FROM sessions WHERE token = $1", [token]);
+    return null;
+  }
 
   const user = await pool.query<{ email: string }>(
     "SELECT email FROM users WHERE id = $1",
