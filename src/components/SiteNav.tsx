@@ -40,17 +40,17 @@ export default function SiteNav() {
         </span>
       </button>
 
-      {/* desktop search trigger — always visible on sm+, hidden on mobile */}
+      {/* search trigger — icon-only on mobile, icon+⌘K label on sm+ */}
       <button
         type="button"
-        aria-label="search (⌘K)"
-        className="hidden h-9 items-center gap-1.5 rounded border border-line px-2.5 font-mono text-xs text-dim transition-colors hover:border-accent/50 hover:text-accent sm:flex"
+        aria-label="search"
+        className="flex h-11 w-11 items-center justify-center rounded border border-line text-dim transition-colors hover:border-accent/50 hover:text-accent sm:h-9 sm:w-auto sm:gap-1.5 sm:px-2.5"
         onClick={() => window.dispatchEvent(new KeyboardEvent("keydown", { key: "k", ctrlKey: true }))}
       >
-        <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
           <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
         </svg>
-        <span>⌘K</span>
+        <span className="hidden font-mono text-xs sm:inline">⌘K</span>
       </button>
 
       {/* links panel: collapsible below brand on mobile, inline row on sm+ */}
