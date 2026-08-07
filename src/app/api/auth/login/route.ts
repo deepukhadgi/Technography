@@ -2,6 +2,7 @@ import { NextRequest } from "next/server";
 import bcrypt from "bcryptjs";
 import { getPool } from "@/lib/db";
 import { createSession } from "@/lib/auth";
+import { signTempToken } from "@/lib/totp";
 import { checkRateLimit, clientIp } from "@/lib/rateLimit";
 
 export const runtime = "nodejs";
@@ -38,8 +39,14 @@ export async function POST(req: NextRequest) {
 
   const pool = getPool();
 
-  const result = await pool.query<{ id: number; password_hash: string; email_verified: boolean; first_name: string }>(
-    "SELECT id, password_hash, email_verified, first_name FROM users WHERE email = $1",
+  const result = await pool.query<{
+    id: number;
+    password_hash: string;
+    email_verified: boolean;
+    first_name: string;
+    totp_secret: string | null;
+  }>(
+    "SELECT id, password_hash, email_verified, first_name, totp_secret FROM users WHERE email = $1",
     [normalizedEmail]
   );
 
@@ -54,6 +61,15 @@ export async function POST(req: NextRequest) {
 
   if (!result.rows[0].email_verified) {
     return Response.json({ error: "Please verify your email first" }, { status: 403 });
+  }
+
+  // 2FA enabled? Don't create a session yet — hand off to the TOTP step.
+  // The temporary token is HMAC-signed and expires in 5 minutes.
+  if (result.rows[0].totp_secret) {
+    return Response.json({
+      requires2fa: true,
+      temporaryToken: signTempToken(result.rows[0].id),
+    });
   }
 
   await createSession(result.rows[0].id, normalizedEmail);

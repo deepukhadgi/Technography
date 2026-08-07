@@ -8,6 +8,8 @@ function safeNextPath(raw: string | undefined | null): string {
   return "/";
 }
 
+type Step = "password" | "totp";
+
 export default function LoginForm({
   nextPath = "/",
 }: {
@@ -19,6 +21,22 @@ export default function LoginForm({
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [step, setStep] = useState<Step>("password");
+  const [code, setCode] = useState("");
+  const [temporaryToken, setTemporaryToken] = useState("");
+
+  function finishLogin(firstName: string | null | undefined) {
+    setSuccess(true);
+    // Stash the welcome message so the global WelcomeToast can show it
+    // on the destination page after the redirect (full page load would
+    // otherwise kill an inline toast immediately).
+    sessionStorage.setItem(
+      "welcome_toast",
+      firstName && firstName.length > 0 ? `Welcome back, ${firstName}!` : "Welcome back!"
+    );
+    const dest = safeNextPath(nextPath);
+    setTimeout(() => (window.location.href = dest), 800);
+  }
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -33,21 +51,12 @@ export default function LoginForm({
       const data = await res.json();
       if (!res.ok) {
         setError(data.error ?? "Login failed");
+      } else if (data.requires2fa === true && typeof data.temporaryToken === "string") {
+        // Password was correct — now prompt for the authenticator code.
+        setTemporaryToken(data.temporaryToken);
+        setStep("totp");
       } else {
-        setSuccess(true);
-        // Stash the welcome message so the global WelcomeToast can show it
-        // on the destination page after the redirect (full page load would
-        // otherwise kill an inline toast immediately).
-        const firstName =
-          typeof data.firstName === "string" && data.firstName.length > 0
-            ? data.firstName
-            : null;
-        sessionStorage.setItem(
-          "welcome_toast",
-          firstName ? `Welcome back, ${firstName}!` : "Welcome back!"
-        );
-        const dest = safeNextPath(nextPath);
-        setTimeout(() => (window.location.href = dest), 800);
+        finishLogin(data.firstName);
       }
     } catch {
       setError("Network error — try again");
@@ -56,11 +65,87 @@ export default function LoginForm({
     }
   }
 
+  async function handleTotpSubmit(e: FormEvent) {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
+    try {
+      const res = await fetch("/api/auth/2fa/confirm", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code, temporaryToken }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setError(data.error ?? "Invalid code");
+      } else {
+        finishLogin(data.firstName);
+      }
+    } catch {
+      setError("Network error — try again");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  function restart() {
+    setStep("password");
+    setCode("");
+    setTemporaryToken("");
+    setError("");
+  }
+
   if (success) {
     return (
       <div className="rounded border border-green-500/40 bg-green-500/10 p-4 text-center text-sm text-green-400">
         ✓ Logged in — redirecting...
       </div>
+    );
+  }
+
+  if (step === "totp") {
+    return (
+      <form onSubmit={handleTotpSubmit} className="space-y-4">
+        <div>
+          <label htmlFor="code" className="block font-mono text-xs text-dim">
+            authenticator code
+          </label>
+          <input
+            id="code"
+            type="text"
+            inputMode="numeric"
+            autoComplete="one-time-code"
+            pattern="[0-9]*"
+            maxLength={6}
+            required
+            value={code}
+            onChange={(e) => setCode(e.target.value.replace(/\D/g, ""))}
+            className="mt-1 w-full rounded border border-line bg-panel px-3 py-3 font-mono text-base tracking-[0.5em] text-fg outline-none transition-colors focus:border-accent"
+            placeholder="000000"
+            autoFocus
+          />
+        </div>
+
+        {error && <p className="text-sm text-red-400">{error}</p>}
+
+        <button
+          type="submit"
+          disabled={loading || code.length !== 6}
+          className="w-full rounded border border-accent/60 bg-accent/10 px-4 py-3 font-mono text-sm text-accent transition-colors hover:bg-accent hover:text-bg disabled:opacity-50"
+        >
+          {loading ? "verifying..." : "verify →"}
+        </button>
+
+        <p className="text-center">
+          <button
+            type="button"
+            onClick={restart}
+            className="font-mono text-xs text-dim underline hover:text-accent"
+          >
+            ← back to password
+          </button>
+        </p>
+      </form>
     );
   }
 

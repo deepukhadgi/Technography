@@ -13,6 +13,9 @@ CREATE TABLE IF NOT EXISTS users (
   created_at timestamptz NOT NULL DEFAULT now()
 );
 
+-- 2FA: encrypted TOTP secret, NULL until the user enables 2FA
+ALTER TABLE users ADD COLUMN IF NOT EXISTS totp_secret text;
+
 CREATE TABLE IF NOT EXISTS comments (
   id serial PRIMARY KEY,
   post_slug text NOT NULL,
