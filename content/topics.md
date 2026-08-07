@@ -5,7 +5,7 @@
 ## Public Posts (DevOps tutorials, homelab guides)
 
 - [ ] How I Hardened My Webserver in 10 Minutes — UFW + fail2ban + SSH | security,linux,ubuntu,homelab | public | pending
-- [ ] Deploying Listmonk: Self-Hosted Newsletter in 5 Commands | self-hosting,docker,newsletter,listmonk | public | pending
+- [x] Deploying Listmonk: Self-Hosted Newsletter in 5 Commands | self-hosting,docker,newsletter,listmonk | public | published
 - [x] Meilisearch on Docker: Blazing Fast Full-Text Search for Your Blog | self-hosting,docker,search,meilisearch | public | published
 - [ ] Umami vs Google Analytics: Why I Switched to Privacy-First Analytics | analytics,privacy,umami,self-hosting | public | pending
 - [ ] Setting Up Proxmox VE for a Multi-VM Homelab | proxmox,virtualization,homelab,linux | public | pending
@@ -18,7 +18,7 @@
 ## Subscriber Posts (Deep dives, behind-the-scenes)
 
 - [ ] Building a Self-Hosted Blog with AI-Powered Automation | ai,automation,blog,self-hosting,hermes | subscriber | pending
-- [ ] The Complete Technography Stack: Every Tool, Every Config | self-hosting,stack,infrastructure,architecture | subscriber | pending
+- [x] The Complete Technography Stack: Every Tool, Every Config | self-hosting,stack,infrastructure,architecture | subscriber | published
 - [ ] Running AI Agents on a Budget: OmniRoute + Hermes Agent | ai,self-hosting,omni,hermes | subscriber | pending
 - [x] Honcho Deep Dive Part 2: Production Tuning and Scaling | honcho,ai,memory,performance | subscriber | published
 - [ ] How I Automated My DevOps with an AI Agent | ai,devops,automation,hermes | subscriber | pending
