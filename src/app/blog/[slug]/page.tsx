@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getAllPosts, getPostBySlug, formatDate, readingTime } from "@/lib/posts";
+import { getAllPosts, getPostBySlug, formatDate, readingTime, type PostMeta } from "@/lib/posts";
 import { isSubscriber } from "@/lib/subscriber";
 import CommentsSection from "@/components/CommentsSection";
 import ShareButtons from "@/components/ShareButtons";
+import RelatedPosts from "@/components/RelatedPosts";
+import ReadingProgress from "@/components/ReadingProgress";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -72,8 +74,26 @@ export default async function PostPage({ params }: Props) {
   // for now — see src/lib/subscriber.ts). Public posts render fully.
   const subscriber = post.premium ? await isSubscriber() : true;
 
+  // Related posts: posts sharing at least one tag with the current post,
+  // ranked by number of shared tags (desc), then date (desc), capped at 3.
+  const relatedPosts: PostMeta[] = getAllPosts()
+    .filter((p) => p.slug !== slug)
+    .map((p) => ({
+      post: p,
+      shared: p.tags.filter((t) => post.tags.includes(t)).length,
+    }))
+    .filter((r) => r.shared > 0)
+    .sort(
+      (a, b) =>
+        b.shared - a.shared || (a.post.date < b.post.date ? 1 : -1)
+    )
+    .slice(0, 3)
+    .map((r) => r.post);
+
   return (
     <article className="mx-auto max-w-4xl px-4 py-16">
+      {/* reading progress bar (client component — tracks scroll position) */}
+      <ReadingProgress />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -135,6 +155,8 @@ export default async function PostPage({ params }: Props) {
           <ShareButtons title={post.title} slug={slug} />
           {/* client-side comments — hidden from non-subscribers on premium posts */}
           <CommentsSection slug={slug} />
+          {/* related posts by shared tags — same-tag matches, newest first */}
+          <RelatedPosts posts={relatedPosts} />
         </>
       ) : (
         <div className="mt-8 rounded border border-line bg-panel p-6">

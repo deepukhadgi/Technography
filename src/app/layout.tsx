@@ -6,6 +6,7 @@ import SubscribeBox from "@/components/SubscribeBox";
 import ThemeProvider from "@/components/ThemeProvider";
 import ThemeToggle from "@/components/ThemeToggle";
 import CodeBlockEnhancer from "@/components/CodeBlockEnhancer";
+import SearchModal from "@/components/SearchModal";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -63,6 +64,7 @@ export default function RootLayout({
       <body className="min-h-screen flex flex-col">
         <ThemeProvider>
           <WelcomeToast />
+          <SearchModal />
           <CodeBlockEnhancer />
           <header className="sticky top-0 z-50 border-b border-line bg-bg/80 backdrop-blur">
             <div className="mx-auto flex max-w-4xl items-center gap-2">
