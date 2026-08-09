@@ -12,7 +12,7 @@
 - [ ] Next.js 16 Standalone Deployment: The Complete Guide | nextjs,deployment,nginx,ubuntu | public | pending
 - [ ] Cloudflare + Self-Hosted: SSL, Proxy, and DNS for Homelabbers | cloudflare,networking,ssl,security | public | pending
 - [ ] Postfix + OpenDKIM: Self-Hosted Mail Server That Actually Works | mail,postfix,dkim,smtp,linux | public | pending
-- [ ] Docker Networking 101: Connecting Containers Across Services | docker,networking,containers,linux | public | pending
+- [x] Docker Networking 101: Connecting Containers Across Services | docker,networking,containers,linux | public | published
 - [ ] Nginx Reverse Proxy: From Zero to Production | nginx,reverse-proxy,linux,ssl | public | pending
 
 ## Subscriber Posts (Deep dives, behind-the-scenes)
@@ -23,4 +23,4 @@
 - [x] Honcho Deep Dive Part 2: Production Tuning and Scaling | honcho,ai,memory,performance | subscriber | published
 - [x] How I Automated My DevOps with an AI Agent | ai,devops,automation,hermes | subscriber | published
 - [ ] Cloudflare Email Routing: Free Email for Your Domain | cloudflare,email,dns,setup | subscriber | pending
-- [ ] From Zero to Subscriber: Building Auth + Premium Gating in Next.js | nextjs,auth,premium,javascript | subscriber | pending
+- [x] From Zero to Subscriber: Building Auth + Premium Gating in Next.js | nextjs,auth,premium,javascript | subscriber | published
