@@ -17,24 +17,30 @@ function escapeMarkdown(text: string): string {
 }
 
 export async function telegramNotify(
-  kind: "signup" | "newsletter",
-  fields: { name?: string; email: string; extra?: string }
+  kind: "signup" | "newsletter" | "comment",
+  fields: { name?: string; email?: string; extra?: string; body?: string; link?: string }
 ): Promise<void> {
   if (!TELEGRAM_BOT_TOKEN || !TELEGRAM_CHAT_ID) {
     console.warn("telegramNotify: TELEGRAM_BOT_TOKEN/TELEGRAM_CHAT_ID not configured");
     return;
   }
 
-  const icon = kind === "signup" ? "🆕" : "📬";
-  const title = kind === "signup" ? "New signup" : "New newsletter subscriber";
+  const meta: Record<string, { icon: string; title: string }> = {
+    signup: { icon: "🆕", title: "New signup" },
+    newsletter: { icon: "📬", title: "New newsletter subscriber" },
+    comment: { icon: "💬", title: "New comment" },
+  };
+  const { icon, title } = meta[kind];
   const name = fields.name?.trim() ? fields.name.trim() : "(no name)";
 
-  const lines = [
-    `${icon} *${title}*`,
-    `• Name: ${name}`,
-    `• Email: ${fields.email}`,
-  ];
+  const lines = [`${icon} *${title}*`, `• Author: ${name}`];
+  if (kind === "comment") {
+    if (fields.body) lines.push(`• Text: ${fields.body.slice(0, 300)}`);
+  } else {
+    lines.push(`• Email: ${fields.email}`);
+  }
   if (fields.extra) lines.push(`• ${fields.extra}`);
+  if (fields.link) lines.push(`• Link: ${fields.link}`);
   lines.push(`• Time: ${new Date().toISOString()}`);
 
   const text = lines.map(escapeMarkdown).join("\n");

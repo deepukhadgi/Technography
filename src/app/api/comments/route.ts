@@ -9,6 +9,7 @@ import {
 } from "@/lib/voter";
 import { sendReplyNotificationEmail } from "@/lib/mail";
 import { getPostBySlug } from "@/lib/posts";
+import { telegramNotify } from "@/lib/telegramNotify";
 
 export const runtime = "nodejs";
 
@@ -186,6 +187,14 @@ export async function POST(req: NextRequest) {
       /* ignore */
     }
   }
+
+  // Fire-and-forget owner Telegram alert (never block the response).
+  void telegramNotify("comment", {
+    name,
+    body: text,
+    extra: parentIdNum !== null ? `Reply to comment #${parentIdNum}` : undefined,
+    link: `${process.env.APP_URL ?? "https://deepukhadgi.com.np"}/blog/${slug}#comment-${result.rows[0].id}`,
+  });
 
   return Response.json({ ok: true, comment: toComment(result.rows[0]) }, { status: 201 });
 }
