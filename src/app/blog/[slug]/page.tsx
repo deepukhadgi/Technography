@@ -9,6 +9,7 @@ import RelatedPosts from "@/components/RelatedPosts";
 import ReadingProgress from "@/components/ReadingProgress";
 import CodeCopyButton from "@/components/CodeCopyButton";
 import TLDRButton from "@/components/TLDRButton";
+import PostTOC from "@/components/PostTOC";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -147,44 +148,56 @@ export default async function PostPage({ params }: Props) {
         </h1>
       </header>
 
-      {subscriber ? (
-        <>
-          <div
-            className="post-content prose prose-invert prose-base mt-8 max-w-none text-dim prose-headings:text-fg prose-strong:text-fg"
-            dangerouslySetInnerHTML={{ __html: post.contentHtml }}
-          />
-          {/* adds copy buttons to every code block (client component) */}
-          <CodeCopyButton />
-          {/* share links (client component — copy-link needs onClick) */}
-          <ShareButtons title={post.title} slug={slug} />
-          {/* AI TL;DR via self-hosted gateway (client component → /api/ai-tldr) */}
-          <TLDRButton slug={slug} />
-          {/* client-side comments — hidden from non-subscribers on premium posts */}
-          <CommentsSection slug={slug} />
-          {/* related posts by shared tags — same-tag matches, newest first */}
-          <RelatedPosts posts={relatedPosts} />
-        </>
-      ) : (
-        <div className="mt-8 rounded border border-line bg-panel p-6">
-          <p className="font-mono text-xs text-dim">
-            <span className="text-accent">$</span> chmod +r post
-          </p>
-          <h2 className="mt-3 font-mono text-xl font-bold">
-            🔒 Subscriber-only content
-          </h2>
-          <p className="mt-3 text-sm text-dim">{post.excerpt}</p>
-          <p className="mt-4 text-sm text-dim">
-            The full post is for subscribers. Log in with a verified account to
-            read it.
-          </p>
-          <Link
-            href={`/login?next=/blog/${slug}`}
-            className="mt-6 inline-block rounded border border-accent/60 bg-accent/10 px-4 py-3 font-mono text-sm text-accent transition-colors hover:bg-accent hover:text-bg"
-          >
-            log in to read →
-          </Link>
+      {/* Two-column layout on desktop: post content (70%) + sticky TOC (30%).
+          PostTOC sits OUTSIDE the subscriber conditional so the column exists
+          for everyone — on premium-locked posts it renders nothing (no
+          .post-content container to scan). contentHtml is only passed to the
+          client component when the user can see the post: passing it
+          unconditionally would serialize the full content into the RSC
+          payload and leak premium posts to non-subscribers. */}
+      <div className="mt-8 flex flex-col gap-8 lg:flex-row lg:items-start">
+        <div className="min-w-0 flex-1">
+          {subscriber ? (
+            <>
+              <div
+                className="post-content prose prose-invert prose-base max-w-none text-dim prose-headings:text-fg prose-strong:text-fg"
+                dangerouslySetInnerHTML={{ __html: post.contentHtml }}
+              />
+              {/* adds copy buttons to every code block (client component) */}
+              <CodeCopyButton />
+              {/* share links (client component — copy-link needs onClick) */}
+              <ShareButtons title={post.title} slug={slug} />
+              {/* AI TL;DR via self-hosted gateway (client component → /api/ai-tldr) */}
+              <TLDRButton slug={slug} />
+              {/* client-side comments — hidden from non-subscribers on premium posts */}
+              <CommentsSection slug={slug} />
+              {/* related posts by shared tags — same-tag matches, newest first */}
+              <RelatedPosts posts={relatedPosts} />
+            </>
+          ) : (
+            <div className="rounded border border-line bg-panel p-6">
+              <p className="font-mono text-xs text-dim">
+                <span className="text-accent">$</span> chmod +r post
+              </p>
+              <h2 className="mt-3 font-mono text-xl font-bold">
+                🔒 Subscriber-only content
+              </h2>
+              <p className="mt-3 text-sm text-dim">{post.excerpt}</p>
+              <p className="mt-4 text-sm text-dim">
+                The full post is for subscribers. Log in with a verified account to
+                read it.
+              </p>
+              <Link
+                href={`/login?next=/blog/${slug}`}
+                className="mt-6 inline-block rounded border border-accent/60 bg-accent/10 px-4 py-3 font-mono text-sm text-accent transition-colors hover:bg-accent hover:text-bg"
+              >
+                log in to read →
+              </Link>
+            </div>
+          )}
         </div>
-      )}
+        <PostTOC contentHtml={subscriber ? post.contentHtml : ""} />
+      </div>
     </article>
   );
 }

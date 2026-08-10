@@ -156,8 +156,8 @@ export async function POST(req: NextRequest) {
   }
 
   const result = await pool.query<CommentRow>(
-    `INSERT INTO comments (post_slug, author_name, body, parent_id, notify_email)
-     VALUES ($1, $2, $3, $4, $5)
+    `INSERT INTO comments (post_slug, author_name, body, parent_id, notify_email, is_approved)
+     VALUES ($1, $2, $3, $4, $5, false)
      RETURNING id, post_slug, author_name, body, parent_id, created_at,
                0::int AS likes, 0::int AS dislikes, NULL::int AS my_vote`,
     [slug, name, text, parentIdNum, notifyEmailStr || null]
@@ -189,10 +189,15 @@ export async function POST(req: NextRequest) {
   }
 
   // Fire-and-forget owner Telegram alert (never block the response).
+  // New comments always land as pending moderation until approved in the panel.
+  const extraParts = [
+    parentIdNum !== null ? `Reply to comment #${parentIdNum}` : null,
+    "⚠ pending moderation",
+  ].filter(Boolean) as string[];
   void telegramNotify("comment", {
     name,
     body: text,
-    extra: parentIdNum !== null ? `Reply to comment #${parentIdNum}` : undefined,
+    extra: extraParts.join(" · "),
     link: `${process.env.APP_URL ?? "https://deepukhadgi.com.np"}/blog/${slug}#comment-${result.rows[0].id}`,
   });
 

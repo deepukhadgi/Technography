@@ -30,6 +30,8 @@
   --code-bg: #0c110e;
   --code-inline-bg: #142019;
   --code-inline-fg: #6ee7b7;
+  /* faint grid backdrop, derived from the accent token per theme */
+  --grid-line: color-mix(in srgb, var(--color-accent) 4%, transparent);
 }
 
 /* Light theme overrides. Unlayered author CSS beats the @layer theme tokens
@@ -92,8 +94,8 @@ body {
 /* faint grid backdrop */
 .bg-grid {
   background-image:
-    linear-gradient(rgba(52, 211, 153, 0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(52, 211, 153, 0.04) 1px, transparent 1px);
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
   background-size: 42px 42px;
 }
 
