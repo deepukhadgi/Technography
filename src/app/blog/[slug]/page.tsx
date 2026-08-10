@@ -7,6 +7,8 @@ import CommentsSection from "@/components/CommentsSection";
 import ShareButtons from "@/components/ShareButtons";
 import RelatedPosts from "@/components/RelatedPosts";
 import ReadingProgress from "@/components/ReadingProgress";
+import CodeCopyButton from "@/components/CodeCopyButton";
+import TLDRButton from "@/components/TLDRButton";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -151,8 +153,12 @@ export default async function PostPage({ params }: Props) {
             className="post-content prose prose-invert prose-base mt-8 max-w-none text-dim prose-headings:text-fg prose-strong:text-fg"
             dangerouslySetInnerHTML={{ __html: post.contentHtml }}
           />
+          {/* adds copy buttons to every code block (client component) */}
+          <CodeCopyButton />
           {/* share links (client component — copy-link needs onClick) */}
           <ShareButtons title={post.title} slug={slug} />
+          {/* AI TL;DR via self-hosted gateway (client component → /api/ai-tldr) */}
+          <TLDRButton slug={slug} />
           {/* client-side comments — hidden from non-subscribers on premium posts */}
           <CommentsSection slug={slug} />
           {/* related posts by shared tags — same-tag matches, newest first */}
