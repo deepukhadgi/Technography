@@ -4,6 +4,7 @@ import bcrypt from "bcryptjs";
 import { getPool } from "@/lib/db";
 import { sendVerificationEmail } from "@/lib/mail";
 import { checkRateLimit, clientIp } from "@/lib/rateLimit";
+import { telegramNotify } from "@/lib/telegramNotify";
 
 export const runtime = "nodejs";
 
@@ -108,6 +109,12 @@ export async function POST(req: NextRequest) {
     await pool.query("DELETE FROM users WHERE id = $1", [userId]).catch(() => {});
     return Response.json({ error: "Could not send verification email. Please try again." }, { status: 500 });
   }
+
+  void telegramNotify("signup", {
+    name: `${fn} ${ln}`.trim(),
+    email: normalizedEmail,
+    extra: `ID ${userId}`,
+  });
 
   return Response.json({ ok: true });
 }

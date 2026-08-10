@@ -1,4 +1,5 @@
 import { NextRequest } from "next/server";
+import { telegramNotify } from "@/lib/telegramNotify";
 
 export const runtime = "nodejs";
 
@@ -60,12 +61,14 @@ export async function POST(req: NextRequest) {
 
     // Already-subscribed / exists errors are treated as success (idempotent UX).
     if (res.status === 200 || res.status === 201) {
+      void telegramNotify("newsletter", { name: nameStr, email: emailStr });
       return Response.json({ ok: true }, { status: 201 });
     }
     if (res.status === 400) {
       const body = await res.json().catch(() => null);
       const msg = (body as { error?: string })?.error ?? "";
       if (/already|exists|duplicate/i.test(msg)) {
+        void telegramNotify("newsletter", { name: nameStr, email: emailStr, extra: "Already subscribed" });
         return Response.json({ ok: true, already: true }, { status: 201 });
       }
     }
