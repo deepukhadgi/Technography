@@ -8,6 +8,7 @@ const baseLinks = [
   { href: "/", label: "home" },
   { href: "/about", label: "about" },
   { href: "/blog", label: "blog" },
+  { href: "/bookmarks", label: "bookmarks" },
   { href: "/contact", label: "contact" },
 ];
 

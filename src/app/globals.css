@@ -180,3 +180,89 @@ canvas {
 .post-content :is(h1, h2, h3, h4) {
   scroll-margin-top: 5rem;
 }
+
+/* ---------------------------------------------------------------------------
+ * Print styles — hide chrome, reset to readable white-page layout, surface
+ * URLs after links so a printed page is self-contained.
+ * ------------------------------------------------------------------------ */
+@media print {
+  /* Hide non-essential UI */
+  header,
+  nav,
+  aside,
+  footer,
+  .no-print,
+  .SiteNav,
+  .PostTOC,
+  .ReadingProgress,
+  .ShareButtons,
+  .CodeCopyButton,
+  .TLDRButton,
+  #comments,
+  .post-actions {
+    display: none !important;
+  }
+
+  /* Reset layout for print */
+  main,
+  .prose {
+    max-width: 100% !important;
+  }
+
+  /* Clean typography — white bg, dark text */
+  body {
+    background: white !important;
+    color: #1a1a1a !important;
+  }
+
+  .prose h1,
+  .prose h2,
+  .prose h3 {
+    color: #111 !important;
+  }
+
+  .prose a {
+    color: #0066cc !important;
+    text-decoration: underline;
+  }
+
+  /* Code blocks */
+  pre {
+    background: #f5f5f5 !important;
+    border: 1px solid #ddd !important;
+  }
+
+  code {
+    background: #f5f5f5 !important;
+    color: #333 !important;
+  }
+
+  /* Show URLs after links */
+  .prose a[href]:after {
+    content: " (" attr(href) ")";
+    font-size: 0.8em;
+    color: #666;
+  }
+
+  /* Page breaks — keep blocks together */
+  h2,
+  h3 {
+    page-break-after: avoid;
+  }
+
+  pre,
+  blockquote,
+  img {
+    page-break-inside: avoid;
+  }
+
+  /* Show title and date clearly */
+  article header h1 {
+    font-size: 2em !important;
+    margin-bottom: 0.5em;
+  }
+
+  article header time {
+    color: #666 !important;
+  }
+}
