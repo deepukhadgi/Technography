@@ -10,7 +10,7 @@
 - [x] Umami vs Google Analytics: Why I Switched to Privacy-First Analytics | analytics,privacy,umami,self-hosting | public | published
 - [ ] Setting Up Proxmox VE for a Multi-VM Homelab | proxmox,virtualization,homelab,linux | public | pending
 - [ ] Next.js 16 Standalone Deployment: The Complete Guide | nextjs,deployment,nginx,ubuntu | public | pending
-- [ ] Cloudflare + Self-Hosted: SSL, Proxy, and DNS for Homelabbers | cloudflare,networking,ssl,security | public | pending
+- [x] Cloudflare + Self-Hosted: SSL, Proxy, and DNS for Homelabbers | cloudflare,networking,ssl,security | public | published
 - [x] Postfix + OpenDKIM: Self-Hosted Mail Server That Actually Works | mail,postfix,dkim,smtp,linux | public | published
 - [x] Docker Networking 101: Connecting Containers Across Services | docker,networking,containers,linux | public | published
 - [ ] Nginx Reverse Proxy: From Zero to Production | nginx,reverse-proxy,linux,ssl | public | pending
@@ -19,7 +19,7 @@
 
 - [ ] Building a Self-Hosted Blog with AI-Powered Automation | ai,automation,blog,self-hosting,hermes | subscriber | pending
 - [x] The Complete Technography Stack: Every Tool, Every Config | self-hosting,stack,infrastructure,architecture | subscriber | published
-- [ ] Running AI Agents on a Budget: OmniRoute + Hermes Agent | ai,self-hosting,omni,hermes | subscriber | pending
+- [x] Running AI Agents on a Budget: OmniRoute + Hermes Agent | ai,self-hosting,omni,hermes | subscriber | published
 - [x] Honcho Deep Dive Part 2: Production Tuning and Scaling | honcho,ai,memory,performance | subscriber | published
 - [x] How I Automated My DevOps with an AI Agent | ai,devops,automation,hermes | subscriber | published
 - [x] Cloudflare Email Routing: Free Email for Your Domain | cloudflare,email,dns,setup | subscriber | published
