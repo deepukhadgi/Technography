@@ -70,7 +70,7 @@ export default function PostTOC({ contentHtml }: { contentHtml: string }) {
         used.set(base, count + 1);
         const id = count === 0 ? base : `${base}-${count}`;
         el.id = id;
-        (el as HTMLElement).style.scrollMarginTop = "1rem";
+        /* scroll-margin-top is handled by .post-content :is(h1,h2,h3,h4) in globals.css */
         els.push(el as HTMLElement);
         items.push({
           id,

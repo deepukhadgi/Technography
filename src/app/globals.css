@@ -174,3 +174,9 @@ canvas {
 .post-content pre code {
   white-space: pre;
 }
+
+/* Anchor targets must clear the sticky site header (~64px) on scroll —
+   covers both TOC clicks (scrollIntoView) and direct #hash deep-links. */
+.post-content :is(h1, h2, h3, h4) {
+  scroll-margin-top: 5rem;
+}
