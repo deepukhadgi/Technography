@@ -18,6 +18,10 @@ comparison I wish someone had written for me, plus the exact setup I
 use: one Docker container, one Postgres database, one nginx location
 block.
 
+<figure>
+  <img src="/images/umami-vs-google-analytics-diagram.png" alt="Umami vs Google Analytics: Why I Switched to Privacy-First Analytics architecture diagram" width="1200" height="600" loading="lazy" />
+  <figcaption class="font-mono text-xs text-dim mt-2 text-center">Umami vs Google Analytics: Why I Switched to Privacy-First Analytics system diagram</figcaption>
+</figure>
 ## Why I stopped trusting the free tier
 
 "Free" analytics has a price, it's just not paid in dollars. Google

@@ -10,6 +10,10 @@ The moment you register a domain, you face the email problem. You want `contact@
 
 Cloudflare Email Routing solves the inbound half for exactly zero dollars. This post walks through how it works, the exact setup steps, and the DNS machinery behind it — plus the behind-the-scenes details I check on my own domain.
 
+<figure>
+  <img src="/images/cloudflare-email-routing-diagram.png" alt="Cloudflare Email Routing: Free Email for Your Domain architecture diagram" width="1200" height="600" loading="lazy" />
+  <figcaption class="font-mono text-xs text-dim mt-2 text-center">Cloudflare Email Routing: Free Email for Your Domain system diagram</figcaption>
+</figure>
 ## What it is — and what it is not
 
 Email Routing is a **forwarding-only** service. Mail sent to `anything@<YOUR_DOMAIN>` arrives at Cloudflare's mail edge, and gets forwarded verbatim to a destination inbox you choose — typically your existing Gmail, Proton, or work inbox.

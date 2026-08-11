@@ -15,6 +15,10 @@ This is the moment every Docker beginner hits, and it's not a bug in
 your app. It's a networking problem, and it's completely solvable in
 about ten minutes of understanding how Docker wires things up.
 
+<figure>
+  <img src="/images/docker-networking-101-diagram.png" alt="Docker Networking 101: Connecting Containers Across Services architecture diagram" width="1200" height="600" loading="lazy" />
+  <figcaption class="font-mono text-xs text-dim mt-2 text-center">Docker Networking 101: Connecting Containers Across Services system diagram</figcaption>
+</figure>
 ## Containers are isolated by default
 
 When you `docker run` a container, Docker gives it its own network

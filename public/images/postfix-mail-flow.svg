@@ -1,0 +1,127 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 420" width="880" height="420" style="display:block;width:100%;height:auto">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&amp;display=swap');
+      text { font-family: 'JetBrains Mono', monospace; }
+      .label { fill: #e2e8f0; font-size: 12px; font-weight: 600; }
+      .sublabel { fill: #94a3b8; font-size: 9px; }
+      .annotation { fill: #64748b; font-size: 8px; }
+      .dns-label { fill: #fbbf24; font-size: 11px; font-weight: 600; }
+      .dns-sub { fill: #92400e; font-size: 8px; }
+    </style>
+    <marker id="arrow" viewBox="0 0 10 6" refX="10" refY="3" markerWidth="8" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 3 L 0 6 z" fill="#34d399"/>
+    </marker>
+    <marker id="arrow-amber" viewBox="0 0 10 6" refX="10" refY="3" markerWidth="8" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 3 L 0 6 z" fill="#fbbf24"/>
+    </marker>
+    <linearGradient id="glow" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#34d399" stop-opacity="0.15"/>
+      <stop offset="50%" stop-color="#34d399" stop-opacity="0.05"/>
+      <stop offset="100%" stop-color="#34d399" stop-opacity="0.15"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Title -->
+  <text x="440" y="32" text-anchor="middle" class="label" font-size="13" fill="#f1f5f9">Self-Hosted Mail Architecture</text>
+  <text x="440" y="48" text-anchor="middle" class="sublabel">Sending-only Postfix null client with DKIM signing and relay delegation</text>
+
+  <!-- Arrows first (behind boxes) -->
+  <!-- Flow arrows: left to right -->
+  <line x1="138" y1="155" x2="178" y2="155" stroke="#34d399" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="338" y1="155" x2="378" y2="155" stroke="#34d399" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="538" y1="155" x2="578" y2="155" stroke="#34d399" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="738" y1="155" x2="778" y2="155" stroke="#34d399" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- TLS badge between OpenDKIM and relay -->
+  <rect x="553" y="130" width="30" height="16" rx="4" fill="#064e3b" stroke="#34d399" stroke-width="1"/>
+  <text x="568" y="141" text-anchor="middle" class="sublabel" fill="#34d399" font-size="7" font-weight="600">TLS</text>
+
+  <!-- Flow labels on arrows -->
+  <text x="158" y="142" text-anchor="middle" class="annotation">SMTP</text>
+  <text x="358" y="142" text-anchor="middle" class="annotation">milter</text>
+  <text x="758" y="142" text-anchor="middle" class="annotation">delivery</text>
+
+  <!-- Self-hosted boundary -->
+  <rect x="48" y="72" width="520" height="170" rx="10" fill="none" stroke="#334155" stroke-width="1.5" stroke-dasharray="6,3"/>
+  <text x="62" y="90" class="annotation" fill="#475569">self-hosted server</text>
+
+  <!-- Box 1: Local App (cyan) -->
+  <rect x="60" y="120" width="78" height="70" rx="6" fill="#0f172a"/>
+  <rect x="60" y="120" width="78" height="70" rx="6" fill="rgba(8,51,68,0.4)" stroke="#22d3ee" stroke-width="1.5"/>
+  <text x="99" y="152" text-anchor="middle" class="label" fill="#22d3ee" font-size="11">Local App</text>
+  <text x="99" y="168" text-anchor="middle" class="sublabel">cron · blog</text>
+  <text x="99" y="178" text-anchor="middle" class="sublabel">monitoring</text>
+
+  <!-- Box 2: Postfix (emerald) -->
+  <rect x="180" y="120" width="158" height="70" rx="6" fill="#0f172a"/>
+  <rect x="180" y="120" width="158" height="70" rx="6" fill="rgba(6,78,59,0.4)" stroke="#34d399" stroke-width="1.5"/>
+  <text x="259" y="148" text-anchor="middle" class="label" fill="#34d399">Postfix</text>
+  <text x="259" y="164" text-anchor="middle" class="sublabel">null client · loopback-only</text>
+  <text x="259" y="177" text-anchor="middle" class="annotation">inet_interfaces = loopback</text>
+
+  <!-- Box 3: OpenDKIM (emerald, dashed) -->
+  <rect x="380" y="120" width="158" height="70" rx="6" fill="#0f172a"/>
+  <rect x="380" y="120" width="158" height="70" rx="6" fill="rgba(6,78,59,0.4)" stroke="#34d399" stroke-width="1.5"/>
+  <text x="459" y="148" text-anchor="middle" class="label" fill="#34d399">OpenDKIM</text>
+  <text x="459" y="164" text-anchor="middle" class="sublabel">milter · rsa-sha256</text>
+  <text x="459" y="177" text-anchor="middle" class="annotation">port 8891</text>
+
+  <!-- Box 4: SMTP Relay (amber/cloud) -->
+  <rect x="580" y="120" width="158" height="70" rx="6" fill="#0f172a"/>
+  <rect x="580" y="120" width="158" height="70" rx="6" fill="rgba(120,53,15,0.3)" stroke="#fbbf24" stroke-width="1.5"/>
+  <text x="659" y="148" text-anchor="middle" class="label" fill="#fbbf24">SMTP Relay</text>
+  <text x="659" y="164" text-anchor="middle" class="sublabel">reputable IPs · TLS auth</text>
+  <text x="659" y="177" text-anchor="middle" class="annotation">port 587 SASL</text>
+
+  <!-- Box 5: Inbox (slate/external) -->
+  <rect x="780" y="120" width="78" height="70" rx="6" fill="#0f172a"/>
+  <rect x="780" y="120" width="78" height="70" rx="6" fill="rgba(30,41,59,0.5)" stroke="#94a3b8" stroke-width="1.5"/>
+  <text x="819" y="152" text-anchor="middle" class="label" fill="#e2e8f0" font-size="11">Inbox</text>
+  <text x="819" y="168" text-anchor="middle" class="sublabel">recipient</text>
+  <text x="819" y="178" text-anchor="middle" class="sublabel">server</text>
+
+  <!-- DNS section separator -->
+  <line x1="60" y1="225" x2="860" y2="225" stroke="#1e293b" stroke-width="1"/>
+  <text x="440" y="250" text-anchor="middle" class="label" fill="#94a3b8" font-size="11">DNS Authentication Records</text>
+
+  <!-- DNS record boxes -->
+  <!-- SPF -->
+  <rect x="60" y="270" width="200" height="58" rx="6" fill="#0f172a"/>
+  <rect x="60" y="270" width="200" height="58" rx="6" fill="rgba(120,53,15,0.2)" stroke="#fbbf24" stroke-width="1" stroke-dasharray="4,2"/>
+  <text x="160" y="290" text-anchor="middle" class="dns-label">SPF</text>
+  <text x="160" y="304" text-anchor="middle" class="annotation" fill="#92400e">v=spf1 include:relay ~all</text>
+  <text x="160" y="317" text-anchor="middle" class="sublabel">zone root (@) · TXT record</text>
+
+  <!-- DKIM -->
+  <rect x="290" y="270" width="200" height="58" rx="6" fill="#0f172a"/>
+  <rect x="290" y="270" width="200" height="58" rx="6" fill="rgba(120,53,15,0.2)" stroke="#fbbf24" stroke-width="1" stroke-dasharray="4,2"/>
+  <text x="390" y="290" text-anchor="middle" class="dns-label">DKIM</text>
+  <text x="390" y="304" text-anchor="middle" class="annotation" fill="#92400e">mail._domainkey · v=DKIM1; k=rsa; p=...</text>
+  <text x="390" y="317" text-anchor="middle" class="sublabel">2048-bit RSA public key</text>
+
+  <!-- DMARC -->
+  <rect x="520" y="270" width="200" height="58" rx="6" fill="#0f172a"/>
+  <rect x="520" y="270" width="200" height="58" rx="6" fill="rgba(120,53,15,0.2)" stroke="#fbbf24" stroke-width="1" stroke-dasharray="4,2"/>
+  <text x="620" y="290" text-anchor="middle" class="dns-label">DMARC</text>
+  <text x="620" y="304" text-anchor="middle" class="annotation" fill="#92400e">_dmarc · v=DMARC1; p=quarantine</text>
+  <text x="620" y="317" text-anchor="middle" class="sublabel">policy + aggregate reporting</text>
+
+  <!-- PTR note -->
+  <rect x="750" y="270" width="100" height="58" rx="6" fill="#0f172a"/>
+  <rect x="750" y="270" width="100" height="58" rx="6" fill="rgba(136,19,55,0.3)" stroke="#fb7185" stroke-width="1" stroke-dasharray="4,2"/>
+  <text x="800" y="290" text-anchor="middle" class="dns-label" fill="#fb7185">PTR</text>
+  <text x="800" y="304" text-anchor="middle" class="annotation" fill="#fb7185">reverse DNS</text>
+  <text x="800" y="317" text-anchor="middle" class="sublabel" fill="#fb7185">set by ISP</text>
+
+  <!-- DNS arrows: records → inbox (recipient checks them) -->
+  <line x1="160" y1="270" x2="819" y2="192" stroke="#fbbf24" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arrow-amber)" opacity="0.6"/>
+  <line x1="390" y1="270" x2="819" y2="192" stroke="#fbbf24" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arrow-amber)" opacity="0.6"/>
+  <line x1="620" y1="270" x2="819" y2="192" stroke="#fbbf24" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arrow-amber)" opacity="0.6"/>
+  <line x1="800" y1="270" x2="819" y2="192" stroke="#fb7185" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arrow-amber)" opacity="0.6"/>
+
+  <!-- Key insight box -->
+  <rect x="60" y="355" width="780" height="46" rx="6" fill="rgba(6,78,59,0.15)" stroke="#34d399" stroke-width="1" opacity="0.7"/>
+  <text x="450" y="376" text-anchor="middle" class="label" fill="#34d399" font-size="11">🔑 Key Insight</text>
+  <text x="450" y="392" text-anchor="middle" class="sublabel" fill="#94a3b8">Self-hosted mail is 20% MTA and 80% authentication — SPF + DKIM + DMARC + relay = inbox placement</text>
+</svg>

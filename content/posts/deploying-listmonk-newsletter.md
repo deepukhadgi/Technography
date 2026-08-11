@@ -18,6 +18,10 @@ framework bloat in the admin panel, and an HTTP API that makes it
 trivial to plug into an existing blog or app. It is the closest thing
 to a drop-in Mailchimp replacement that actually respects your data.
 
+<figure>
+  <img src="/images/deploying-listmonk-newsletter-diagram.png" alt="Deploying Listmonk: Self-Hosted Newsletter in 5 Commands architecture diagram" width="1200" height="600" loading="lazy" />
+  <figcaption class="font-mono text-xs text-dim mt-2 text-center">Deploying Listmonk: Self-Hosted Newsletter in 5 Commands system diagram</figcaption>
+</figure>
 ## Why Listmonk?
 
 Before picking it I evaluated the usual suspects. The reasons Listmonk

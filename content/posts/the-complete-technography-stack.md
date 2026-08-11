@@ -12,6 +12,10 @@ every cron job, and the exact config that makes them cooperate. This
 post is that bill of materials — the architecture I would hand anyone
 who wants to replicate it on a single weekend.
 
+<figure>
+  <img src="/images/the-complete-technography-stack-diagram.png" alt="The Complete Technography Stack: Every Tool, Every Config architecture diagram" width="1200" height="600" loading="lazy" />
+  <figcaption class="font-mono text-xs text-dim mt-2 text-center">The Complete Technography Stack: Every Tool, Every Config system diagram</figcaption>
+</figure>
 ## The one-paragraph overview
 
 A Cloudflare edge fronts an nginx reverse proxy on a single Ubuntu VPS.
