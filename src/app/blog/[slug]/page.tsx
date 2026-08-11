@@ -7,6 +7,7 @@ import CommentsSection from "@/components/CommentsSection";
 import ShareButtons from "@/components/ShareButtons";
 import RelatedPosts from "@/components/RelatedPosts";
 import ReadingProgress from "@/components/ReadingProgress";
+import ScrollDepthTracker from "@/components/ScrollDepthTracker";
 import CodeCopyButton from "@/components/CodeCopyButton";
 import TLDRButton from "@/components/TLDRButton";
 import PostTOC from "@/components/PostTOC";
@@ -97,6 +98,8 @@ export default async function PostPage({ params }: Props) {
     <article className="mx-auto max-w-4xl px-4 py-16">
       {/* reading progress bar (client component — tracks scroll position) */}
       <ReadingProgress />
+      {/* Umami scroll-depth (25/50/75/100%) + time-on-post (30s) analytics */}
+      <ScrollDepthTracker slug={slug} />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
