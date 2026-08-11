@@ -89,24 +89,26 @@ export default function HomePage() {
             </Link>
           </div>
           <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {posts.map((p) => (
-              <Link
-                key={p.slug}
-                href={`/blog/${p.slug}`}
-                className="group flex flex-col rounded border border-line bg-panel p-5 transition-colors hover:border-accent/50"
-              >
-                <time className="font-mono text-xs text-dim">
-                  {formatDate(p.date)}
-                </time>
-                <h3 className="mt-2 font-mono text-sm font-bold leading-snug group-hover:text-accent">
-                  {p.title}
-                </h3>
-                <p className="mt-2 line-clamp-3 text-xs leading-relaxed text-dim">
-                  {p.excerpt}
-                </p>
-              </Link>
-            ))}
-          </div>
+                      {posts.map((p) => (
+                        <Link
+                          key={p.slug}
+                          href={`/blog/${p.slug}`}
+                          className="group flex flex-col rounded border border-line bg-panel p-5 transition-colors hover:border-accent/50"
+                        >
+                          <time className="font-mono text-xs text-dim">
+                            {formatDate(p.date)}
+                          </time>
+                          <span className="font-mono text-xs text-dim">·</span>
+                          <span className="font-mono text-xs text-dim">⏱ {p.readingTime} min read</span>
+                          <h3 className="mt-2 font-mono text-sm font-bold leading-snug group-hover:text-accent">
+                            {p.title}
+                          </h3>
+                          <p className="mt-2 line-clamp-3 text-xs leading-relaxed text-dim">
+                            {p.excerpt}
+                          </p>
+                        </Link>
+                      ))}
+                    </div>
         </div>
       </section>
     </div>

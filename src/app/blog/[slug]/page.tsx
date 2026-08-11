@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getAllPosts, getPostBySlug, formatDate, readingTime, type PostMeta } from "@/lib/posts";
+import { getAllPosts, getPostBySlug, formatDate, type PostMeta } from "@/lib/posts";
 import { isSubscriber } from "@/lib/subscriber";
 import CommentsSection from "@/components/CommentsSection";
 import ShareButtons from "@/components/ShareButtons";
@@ -11,6 +11,8 @@ import ScrollDepthTracker from "@/components/ScrollDepthTracker";
 import CodeCopyButton from "@/components/CodeCopyButton";
 import TLDRButton from "@/components/TLDRButton";
 import PostTOC from "@/components/PostTOC";
+import NewsletterCTA from "@/components/NewsletterCTA";
+import ViewCounter from "@/components/ViewCounter";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -108,7 +110,7 @@ export default async function PostPage({ params }: Props) {
             "@type": "BlogPosting",
             headline: post.title,
             datePublished: post.date,
-            dateModified: post.date,
+            dateModified: post.updated && post.updated !== post.date ? post.updated : post.date,
             description: post.excerpt,
             keywords: post.tags.join(", "),
             author: { "@type": "Person", name: "Deepu Khadgi", url: "https://deepukhadgi.com.np" },
@@ -130,8 +132,16 @@ export default async function PostPage({ params }: Props) {
       <header className="mt-6">
         <div className="flex flex-wrap items-center gap-3 font-mono text-xs text-dim">
           <time>{formatDate(post.date)}</time>
+          {post.updated && post.updated !== post.date && (
+            <>
+              <span aria-hidden="true">·</span>
+              <time>Last updated: {formatDate(post.updated)}</time>
+            </>
+          )}
           <span aria-hidden="true">·</span>
-          <span>{readingTime(post.contentHtml.replace(/<[^>]+>/g, " "))} min read</span>
+          <span>⏱ {post.readingTime} min read</span>
+          <span aria-hidden="true">·</span>
+          <ViewCounter slug={slug} />
           {post.tags.map((t) => (
             <span
               key={t}
@@ -172,6 +182,9 @@ export default async function PostPage({ params }: Props) {
               <ShareButtons title={post.title} slug={slug} />
               {/* AI TL;DR via self-hosted gateway (client component → /api/ai-tldr) */}
               <TLDRButton slug={slug} />
+              {/* newsletter signup CTA — after content, before comments */}
+              <hr className="my-8 border-line" />
+              <NewsletterCTA />
               {/* client-side comments — hidden from non-subscribers on premium posts */}
               <CommentsSection slug={slug} />
               {/* related posts by shared tags — same-tag matches, newest first */}

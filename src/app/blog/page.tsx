@@ -2,11 +2,35 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { getAllPosts, formatDate } from "@/lib/posts";
 import SearchBox from "@/components/SearchBox";
+import ViewCounter from "@/components/ViewCounter";
 
 export const metadata: Metadata = { title: "Blog" };
 
-export default function BlogPage() {
+type ViewMap = Record<string, number>;
+
+async function fetchViewCounts(slugs: string[]): Promise<ViewMap> {
+  const results = await Promise.allSettled(
+    slugs.map(async (slug) => {
+      const res = await fetch(`/api/views?slug=${encodeURIComponent(slug)}`, {
+        cache: "no-store",
+      });
+      if (!res.ok) return null;
+      const data = (await res.json()) as { views?: number };
+      return { slug, views: data.views ?? 0 };
+    })
+  );
+  const map: ViewMap = {};
+  for (const r of results) {
+    if (r.status === "fulfilled" && r.value) {
+      map[r.value.slug] = r.value.views;
+    }
+  }
+  return map;
+}
+
+export default async function BlogPage() {
   const posts = getAllPosts();
+  const viewCounts = await fetchViewCounts(posts.map((p) => p.slug));
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-16">
@@ -34,6 +58,8 @@ export default function BlogPage() {
           >
             <div className="flex flex-wrap items-center gap-3 font-mono text-xs text-dim">
               <time>{formatDate(p.date)}</time>
+              <span aria-hidden="true">·</span>
+              <span>⏱ {p.readingTime} min read</span>
               {p.tags.map((t) => (
                 <Link
                   key={t}
@@ -43,6 +69,15 @@ export default function BlogPage() {
                   {t}
                 </Link>
               ))}
+              {viewCounts[p.slug] !== undefined && (
+                <>
+                  <span aria-hidden="true">·</span>
+                  <ViewCounter
+                    slug={p.slug}
+                    initialViewCount={viewCounts[p.slug]}
+                  />
+                </>
+              )}
             </div>
             <h2 className="mt-2 font-mono text-base font-bold group-hover:text-accent">
               {p.premium && (

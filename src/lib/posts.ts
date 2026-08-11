@@ -10,10 +10,12 @@ export type PostMeta = {
   slug: string;
   title: string;
   date: string;
+  updated?: string;
   excerpt: string;
   tags: string[];
   /** Subscriber-only post — full content gated behind a logged-in verified account. */
   premium: boolean;
+  readingTime: number;
 };
 
 export type Post = PostMeta & {
@@ -30,9 +32,11 @@ function parseFile(slug: string): { meta: PostMeta; content: string } {
       slug,
       title: data.title ?? slug,
       date: data.date ? String(data.date) : "1970-01-01",
+      updated: data.updated ? String(data.updated) : undefined,
       excerpt: data.excerpt ?? "",
       tags: Array.isArray(data.tags) ? data.tags.map(String) : [],
       premium: data.premium === true,
+      readingTime: readingTime(content),
     },
     content,
   };
