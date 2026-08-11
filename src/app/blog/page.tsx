@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { getAllPosts, formatDate } from "@/lib/posts";
-import SearchBox from "@/components/SearchBox";
 import ViewCounter from "@/components/ViewCounter";
 
 export const metadata: Metadata = { title: "Blog" };
@@ -44,10 +43,6 @@ export default async function BlogPage() {
         Notes on technology, infrastructure, and whatever I&apos;m working on.
         New posts as I learn and build.
       </p>
-
-      <div className="mt-8">
-        <SearchBox />
-      </div>
 
       <div className="mt-10 space-y-4">
         {posts.map((p) => (
