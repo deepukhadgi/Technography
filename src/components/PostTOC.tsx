@@ -136,7 +136,7 @@ export default function PostTOC({ contentHtml }: { contentHtml: string }) {
   };
 
   return (
-    <aside className="hidden lg:block lg:w-[30%]">
+    <aside className="hidden lg:block lg:w-[30%] lg:self-stretch">
       {headings.length > 0 && (
         <div className="sticky top-6 max-h-[calc(100vh-3rem)] overflow-y-auto rounded border border-line bg-panel p-4">
           <p className="font-mono text-xs text-dim">contents</p>
