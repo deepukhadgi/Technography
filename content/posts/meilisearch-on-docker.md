@@ -14,10 +14,6 @@ full-text engine that tolerates typos and answers in milliseconds.
 That engine is **Meilisearch**, and running it on Docker takes about
 five minutes. This is the exact path I took, with every command.
 
-<figure>
-  <img src="/images/meilisearch-on-docker-diagram.png" alt="Meilisearch on Docker: Blazing Fast Full-Text Search for Your Blog architecture diagram" width="1200" height="600" loading="lazy" />
-  <figcaption class="font-mono text-xs text-dim mt-2 text-center">Meilisearch on Docker: Blazing Fast Full-Text Search for Your Blog system diagram</figcaption>
-</figure>
 ## Why Meilisearch?
 
 Meilisearch is an open-source search engine written in Rust. It is the

@@ -17,11 +17,6 @@ local app → Postfix → OpenDKIM (signs) → relay → recipient inbox
 
 The relay is the critical ingredient. Providers like SMTP2GO, Amazon SES, or Mailgun own a fleet of IP addresses with decades of accumulated reputation. Your fresh VPS IP has exactly none, and many consumer ISPs block outbound port 25 entirely. Delegating delivery to a relay means your inbox placement no longer depends on your IP's history — only on your DNS authentication, which you control.
 
-<figure>
-  <img src="/images/postfix-opendkim-mail-server-diagram.png" alt="Self-hosted mail architecture: Local App → Postfix (null client) → OpenDKIM (DKIM signing) → SMTP Relay (TLS, port 587) → Recipient Inbox, with DNS records SPF, DKIM, DMARC, and PTR verified by the recipient server" width="1200" height="600" loading="lazy" style="width:100%;height:auto;border-radius:0.5rem;border:1px solid var(--color-line)" />
-  <figcaption class="font-mono text-xs text-dim mt-2 text-center">The full mail path: your local app hands off to Postfix, OpenDKIM stamps the DKIM signature, and a reputable relay delivers to the recipient — with DNS records proving authenticity at every hop.</figcaption>
-</figure>
-
 ## Step 0 — Prerequisites
 
 - An Ubuntu server (22.04 or newer works fine).

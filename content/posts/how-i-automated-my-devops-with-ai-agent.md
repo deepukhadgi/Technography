@@ -20,10 +20,6 @@ tour: how the automation is structured, where the AI is genuinely
 useful, where it isn't, and the guardrails that stop it from setting
 the lab on fire.
 
-<figure>
-  <img src="/images/how-i-automated-my-devops-with-ai-agent-diagram.png" alt="How I Automated My DevOps with an AI Agent architecture diagram" width="1200" height="600" loading="lazy" />
-  <figcaption class="font-mono text-xs text-dim mt-2 text-center">How I Automated My DevOps with an AI Agent system diagram</figcaption>
-</figure>
 ## The shape of an automated day
 
 The whole pipeline is a chain of small, dumb, verifiable steps. The

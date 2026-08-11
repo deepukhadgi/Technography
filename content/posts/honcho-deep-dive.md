@@ -10,10 +10,6 @@ In [part 4](/blog/what-is-honcho) I covered what Honcho is and why it matters. T
 
 ---
 
-<figure>
-  <img src="/images/honcho-deep-dive-diagram.png" alt="Subscriber-Only: Honcho Deep Dive — Deployment, Tuning & Hermes Integration architecture diagram" width="1200" height="600" loading="lazy" />
-  <figcaption class="font-mono text-xs text-dim mt-2 text-center">Subscriber-Only: Honcho Deep Dive — Deployment, Tuning & Hermes Integration system diagram</figcaption>
-</figure>
 ## The Deployment Stack
 
 Honcho runs on a Docker server alongside the mail server and the Technography Postgres. It's a single Docker Compose stack:

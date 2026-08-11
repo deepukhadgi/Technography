@@ -17,10 +17,6 @@ What changed: conversation volume roughly tripled, the database crossed
 night the whole stack ground to a halt over a single misconfigured
 setting. Every section below is something I had to break first.
 
-<figure>
-  <img src="/images/honcho-deep-dive-part-2-diagram.png" alt="Honcho Deep Dive Part 2: Production Tuning and Scaling architecture diagram" width="1200" height="600" loading="lazy" />
-  <figcaption class="font-mono text-xs text-dim mt-2 text-center">Honcho Deep Dive Part 2: Production Tuning and Scaling system diagram</figcaption>
-</figure>
 ## Where the pressure shows up
 
 Honcho has three moving parts, and each fails differently under load:

@@ -8,10 +8,6 @@ tags: ["nginx", "nextjs", "deployment", "self-hosting"]
 This website runs on a small VM in my home lab. Here's the full stack and
 how it's wired together — the same setup you can use for any Node.js app.
 
-<figure>
-  <img src="/images/deploying-nextjs-nginx-diagram.png" alt="Deploying this site: Next.js + nginx on a self-hosted server architecture diagram" width="1200" height="600" loading="lazy" />
-  <figcaption class="font-mono text-xs text-dim mt-2 text-center">Deploying this site: Next.js + nginx on a self-hosted server system diagram</figcaption>
-</figure>
 ## The stack
 
 | piece    | choice                |

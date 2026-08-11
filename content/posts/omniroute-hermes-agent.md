@@ -11,10 +11,6 @@ talk to Telegram, write code, manage servers — and not depend on a single
 API key. The answer was two open-source projects: **Hermes Agent** and
 **OmniRoute**.
 
-<figure>
-  <img src="/images/omniroute-hermes-agent-diagram.png" alt="Running Hermes Agent with OmniRoute — free AI models on your own infrastructure architecture diagram" width="1200" height="600" loading="lazy" />
-  <figcaption class="font-mono text-xs text-dim mt-2 text-center">Running Hermes Agent with OmniRoute — free AI models on your own infrastructure system diagram</figcaption>
-</figure>
 ## What is Hermes Agent?
 
 Hermes Agent is an open-source AI agent framework built by Nous Research.

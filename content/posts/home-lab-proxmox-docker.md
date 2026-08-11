@@ -9,10 +9,6 @@ A home lab is the best playground a network engineer can have. No change
 requests, no change windows, no blame — just snapshots and rollbacks. Here's
 how mine is laid out.
 
-<figure>
-  <img src="/images/home-lab-proxmox-docker-diagram.png" alt="My home lab: virtual hosts, containers, and the network between them architecture diagram" width="1200" height="600" loading="lazy" />
-  <figcaption class="font-mono text-xs text-dim mt-2 text-center">My home lab: virtual hosts, containers, and the network between them system diagram</figcaption>
-</figure>
 ## The virtualization host
 
 Everything runs on a single Proxmox VE host. It's modest hardware — a
