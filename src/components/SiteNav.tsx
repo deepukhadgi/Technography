@@ -83,9 +83,6 @@ export default function SiteNav() {
             />
           </svg>
           <span>Search posts...</span>
-          <kbd className="ml-auto hidden rounded border border-line px-1.5 py-0.5 text-[10px] font-mono text-dim sm:inline">
-            ⌘K
-          </kbd>
         </button>
       </div>
     </>
