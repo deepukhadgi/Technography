@@ -57,7 +57,7 @@ export function getAllTags(): string[] {
 
 export async function getPostBySlug(slug: string): Promise<Post> {
   const { meta, content } = parseFile(slug);
-  const processed = await remark().use(html).process(content);
+  const processed = await remark().use(html, {sanitize: false}).process(content);
   return {
     ...meta,
     contentHtml: processed.toString(),

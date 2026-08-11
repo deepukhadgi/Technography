@@ -180,3 +180,16 @@ canvas {
 .post-content :is(h1, h2, h3, h4) {
   scroll-margin-top: 5rem;
 }
+
+/* Diagram figures: centered, responsive, caption styling */
+.post-content figure {
+  margin: 2rem 0;
+}
+.post-content figcaption {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  color: var(--color-dim);
+  text-align: center;
+  margin-top: 0.5rem;
+  line-height: 1.5;
+}
