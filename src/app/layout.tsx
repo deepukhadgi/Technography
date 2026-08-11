@@ -125,8 +125,8 @@ export default function RootLayout({
                 </p>
                 </div>
                 <div className="mt-4 flex flex-wrap gap-x-4 gap-y-1 font-mono text-[11px] text-dim/70">
-                  <a href="/rss.xml" className="hover:text-accent">rss</a>
-                  <a href="/sitemap.xml" className="hover:text-accent">sitemap</a>
+                  <a href="/rss.xml" target="_blank" rel="noopener noreferrer" className="hover:text-accent">rss</a>
+                  <a href="/sitemap.xml" target="_blank" rel="noopener noreferrer" className="hover:text-accent">sitemap</a>
                 </div>
               </div>
             </footer>
