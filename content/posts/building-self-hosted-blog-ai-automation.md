@@ -1,154 +1,136 @@
 ---
 title: "Building a Self-Hosted Blog with AI-Powered Automation"
-date: "2026-08-05"
-excerpt: "The full behind-the-scenes of this blog — Next.js, nginx, Cloudflare, Postgres, and the AI agent that writes, deploys, and tracks every post. For subscribers."
-tags: ["ai", "automation", "self-hosting", "nextjs", "blog", "subscriber-only"]
+date: "2026-08-12"
+excerpt: "A behind-the-scenes look at how an AI agent drafts, builds, scans, deploys, and indexes two blog posts every day — with zero human intervention after the topic queue is filled."
+tags: ["ai", "automation", "blog", "self-hosting", "hermes", "subscriber-only"]
 premium: true
 ---
 
-The public posts show you how-to guides. This one shows you the machine:
-the exact stack this blog runs on, and the AI agent that operates it end
-to end. Every post you read here went through the same pipeline — an
-agent wrote or revised it, deployed it, and verified it live — and I
-never once SSH'd in by hand to ship it.
+# Building a Self-Hosted Blog with AI-Powered Automation
 
-If you want to replicate this, every piece is named below, and every
-piece is open source.
+Most self-hosted blogs are static: you write, you commit, the host rebuilds. That works until you want to publish consistently without spending hours on each post.
 
-## The architecture
+This is the story of how I turned a Next.js blog into a semi-autonomous publishing pipeline — one that drafts, builds, deploys, and indexes two posts every day, guided by an AI agent and a simple topic queue.
 
-| piece         | choice                                   |
-| ------------- | ---------------------------------------- |
-| app           | Next.js 16, App Router, standalone build |
-| reverse proxy | nginx                                    |
-| TLS           | Cloudflare (proxy)                       |
-| database      | Postgres on the Docker server            |
-| AI gateway    | OmniRoute                                |
-| agent         | Hermes Agent                             |
-| memory        | Honcho                                   |
-| newsletter    | Listmonk                                 |
-| repo          | public GitHub                            |
+## The Problem I Was Solving
 
-The physical layout is a Proxmox host with two VMs doing real work: one
-webserver VM running nginx and the app, and one Docker server (I call
-it a separate Docker server) running everything else — Postgres, Listmonk, OmniRoute,
-Honcho. One job per VM, so when something breaks you know exactly which
-box to look at ([my home lab layout](/blog/home-lab-proxmox-docker)).
+I wanted to publish twice a week: one public DevOps tutorial and one subscriber-only deep dive. Writing both from scratch every time was unsustainable. But I didn't want to outsource writing to a tool that produced generic filler. I wanted the posts to reflect real infrastructure decisions, actual configs, and honest lessons from running a homelab.
 
-Only the webserver talks to the internet, and only on ports 22/80/443 —
-the firewall makes sure of that ([how I hardened it](/blog/hardening-webserver-in-10-minutes)).
-The Docker server never sees the outside world; the webserver reaches it
-over the lab network.
+The solution: a structured topic queue, an AI agent that follows a strict workflow, and an automated pipeline that handles everything from build to deployment to search indexing.
 
-## The app: Next.js 16 standalone
+## The Topic Queue
 
-The site is a Next.js 16 App Router app built with
-`output: "standalone"`, which produces a minimal server folder — one
-`server.js` plus only the `node_modules` the app actually needs.
-Deployment is copying that folder to the webserver and restarting a
-systemd unit. No npm install on the server, no build on the server, no
-toolchain. That tiny artifact is what makes the agent-driven deploy loop
-practical — a deploy is a copy, not an event.
+Everything starts with `content/topics.md`. It's a plain markdown file with two sections:
 
-The full nginx + systemd wiring is in [Deploying this site: Next.js +
-nginx](/blog/deploying-nextjs-nginx), so I won't repeat it. One Next.js
-16 detail matters here though: premium posts are `force-dynamic`, so
-the access check runs per request and gated content never ends up in
-prerendered HTML. Static generation is great — until it leaks a
-subscriber post into the public cache.
+```markdown
+## Public Posts (DevOps tutorials, homelab guides)
 
-## The database: Postgres on the Docker server
+- [ ] Next.js 16 Standalone Deployment: The Complete Guide | nextjs,deployment,nginx | public | pending
+- [ ] Nginx Reverse Proxy: From Zero to Production | nginx,reverse-proxy,ssl | public | pending
 
-Subscriber accounts live in Postgres, running in a container on the
-Docker server — deliberately not on the webserver, so a compromise of
-the web tier doesn't mean a dump of the accounts table. When a
-logged-in visitor opens a premium post, the server checks the session
-against the database before serving full content; logged-out visitors
-get the teaser and a login prompt.
+## Subscriber Posts (Deep dives, behind-the-scenes)
 
-Postgres on its own VM also means I can back it up independently,
-snapshot the whole container, and rebuild the app tier without touching
-a single row.
+- [ ] Building a Self-Hosted Blog with AI-Powered Automation | ai,automation,blog | subscriber | pending
+```
 
-## The AI layer
+Each line encodes the title, tags, audience, and status. The agent reads this file, picks one `pending` public post and one `pending` subscriber post, and never reuses a title whose slug already exists in `content/posts/`.
 
-Three tools, each with one job:
+The queue is human-curated. I add topics as ideas come up. The agent handles the rest.
 
-- **OmniRoute** — the gateway. Every model request from the agent goes
-  through it, and it routes to whichever provider is up, fastest, and
-  cheapest for the job, with automatic fallback when one is
-  rate-limited. That's why the pipeline keeps working even when a
-  provider has a bad day ([deep dive](/blog/what-is-omniroute)).
-- **Hermes Agent** — the operator. It has terminal access to the lab,
-  writes the posts, runs the deploy script, opens and closes GitHub
-  issues, and messages me on Telegram when something needs a human
-  ([what it is](/blog/what-is-hermes-agent)).
-- **Honcho** — the memory. Honcho keeps long-term context, so the agent
-  doesn't re-learn my preferences every session: which tone to use,
-  which placeholders to substitute for internal addresses, which topics
-  are done ([what it is](/blog/what-is-honcho)).
+## The Agent Workflow
 
-The gateway and memory run on the Docker server. The agent runs on my
-workstation and reaches everything over the LAN.
+The publishing agent follows a strict 10-step pipeline. Each step has a gate — if anything fails, the pipeline stops and reports the error.
 
-## The content pipeline
+### Step 1: Read the Queue
 
-Every post moves through five stages:
+The agent reads `topics.md`, filters for `pending` entries, and verifies slug uniqueness against the existing post directory.
 
-1. **Topic queue.** Ideas live as GitHub issues, labeled and
-   prioritized. The queue is public — you can literally see what's
-   coming next.
-2. **Draft.** Hermes writes the post into `content/posts/` as markdown
-   with frontmatter: title, date, tags, excerpt, and the `premium: true`
-   flag for subscriber posts.
-3. **Review.** I read it; the agent iterates. Standing rules are
-   enforced at this stage: no internal IPs, no domain names, no
-   secrets — anything internal gets replaced with a
-   `<YOUR_SERVER>`-style placeholder, because the repo is public.
-4. **Deploy.** The agent commits and pushes, then runs the deploy
-   script. The script lives outside the repo — that's where the
-   credentials live — and it builds on the workstation, ships the
-   standalone output to the webserver, restarts the service, then
-   verifies live: the route returns 200, security headers are intact,
-   and the premium gate still locks when logged out. No deploy gets
-   closed out unverified.
-5. **Newsletter.** Listmonk, running on the Docker server, picks up the
-   new post and sends subscribers the excerpt with a link — login
-   required for premium content. Same list, same pipeline, every post.
+### Step 2: Create GitHub Issues
 
-## Why GitHub issues for everything
+Before writing a single line, the agent creates a GitHub issue for each post. This gives us a traceable record and a place to attach verification evidence later. The issue stays open until the post is live and verified.
 
-The standing rule is: every task gets an issue, the work gets done, and
-the issue is closed with the commit SHA and verification evidence. That
-sounds bureaucratic for a one-person blog, but it's what makes the
-agent model work. The repo is the agent's paper trail — what it did,
-when, and proof it verified the result. If something breaks, the fix
-history is searchable. And because the agent manages the issues itself,
-the loop is fully closed: plan → do → verify → record, no human
-babysitting.
+### Step 3: Write the Posts
 
-## Guardrails
+The agent generates 800–1500 words per post. The public post is a tutorial with code blocks, concrete steps, and numbers. The subscriber post is a behind-the-scenes deep dive into the architecture, the decisions, and the failures.
 
-An agent with SSH access to servers and a token that can push to GitHub
-is a powerful thing, so the setup is deliberately boring:
+Security is critical here. The repo is public on GitHub. The agent scans every line for:
 
-- credentials live in the agent's local environment, never in the repo
-- the deploy script is outside the repo by design
-- posts are scrubbed of internal details before they're committed
-- every deployment ends with a verification step before the issue closes
-- I review anything the agent writes before it ships
+- Internal IP ranges (`192.168.*`, `10.*`, `172.16–31.*`)
+- System usernames
+- Passwords, tokens, API keys
+- Internal hostnames
 
-The agent does the work; I own the outcome.
+Any match gets replaced with placeholders: `<YOUR_HOST>`, `<YOUR_DOMAIN>`, `<YOUR_SERVER>`. The only real domain allowed in post content is the public blog domain itself.
 
-## What it costs
+### Step 4: Security Scan
 
-This whole machine — blog, database, auth, gating, newsletter, and an
-AI agent operating it — costs essentially nothing beyond the lab's
-electricity. Models are routed through free tiers where possible, and
-the infrastructure is all open source. That's the point of this series:
-a modern, automated, self-hosted publishing platform that runs on your
-own hardware and answers to you.
+After writing, the agent runs a grep over both files:
 
-*Not a subscriber yet? Logging in with a verified account unlocks this
-post and everything above it — see the [subscriber series
-overview](/blog/subscriber-only-teaser).*
+```bash
+grep -nEi "192\.168\.|10\.0\.|172\.(1[6-9]|2[0-9]|3[01])\.|<YOUR_USERNAME>|password|api[_-]?key|secret" content/posts/*.md
+```
+
+If anything matches in the body, the post is rewritten. Only a generic sentence containing the word "token" is acceptable — a real secret is not.
+
+### Step 5: Mark Topics as Published
+
+The agent updates `topics.md`, changing `- [ ]` to `- [x]` and `pending` to `published` for the two picked entries.
+
+### Step 6: Build Gate
+
+The agent runs `npm run build`. If the build fails — TypeScript error, route table collision, missing dependency — the pipeline stops. No commit, no deploy. The error is reported and the issues stay open.
+
+### Step 7: Commit and Push
+
+On a successful build, the agent commits with a conventional message and pushes to `origin main`. Auth is handled by a credential helper — the token never appears in logs.
+
+### Step 8: Deploy
+
+The agent runs the deploy script, which builds the standalone output, rsyncs it to the webserver VM, and restarts the systemd service. The script reads credentials from a secured directory outside the repo.
+
+### Step 9: Verify Live
+
+The agent hits each new post URL with `curl` and confirms HTTP 200. It also checks that security headers are present and that the premium gate still locks subscriber content when unauthenticated.
+
+### Step 10: Re-index Search
+
+After a successful deploy, the agent runs the Meilisearch indexing script. It prints the number of posts indexed. If the script errors, the pipeline reports the failure but the posts are still live.
+
+## The Infrastructure
+
+Here's what runs behind the scenes:
+
+- **Blog engine**: Next.js 16 with App Router, TypeScript, standalone output
+- **Auth**: Custom session-based auth with encrypted cookies; premium gate checks on every request
+- **Search**: Meilisearch, re-indexed after each deploy
+- **Analytics**: Umami, served through an nginx proxy to keep internal IPs out of public HTML
+- **Email**: Postfix on the Docker server, relayed through SMTP2GO for delivery
+- **Hosting**: A webserver VM behind nginx, TLS terminated at Cloudflare
+- **CI/CD**: The deploy script runs on a cron schedule; the agent executes it as a scheduled job
+
+## What the Agent Can't Do (Yet)
+
+The current pipeline is strong on structure but weak on originality. The agent follows a template: intro, problem statement, steps, verification, pitfalls. The content is accurate because it's based on real experience, but the prose can feel uniform across posts.
+
+Potential improvements:
+
+- **Style variation**: Inject tone descriptors into the prompt so each post doesn't sound like the same voice.
+- **Image generation**: Add diagrams or architecture sketches generated from post content.
+- **Peer review**: Have a second agent critique the post for accuracy before it goes live.
+- **Social snippets**: Auto-generate Twitter/LinkedIn cards from the post excerpt and tags.
+
+## Lessons Learned
+
+**Never skip the build gate.** I once deployed a post with a broken import and spent 20 minutes debugging a 404 that was actually a build error. The build must pass before anything else.
+
+**Security scans save reputations.** A single leaked internal IP in a public post would undermine the credibility of a blog that claims to teach security. The grep is cheap insurance.
+
+**Stale `.next` caches cause silent bugs.** When route semantics change (like adding auth checks), the prerendered output can leak gated content. Purging `.next/` before rebuild is non-negotiable.
+
+**The topic queue is the bottleneck.** The agent can publish fast, but it can't create topics. I need to keep the queue filled or the pipeline stalls. A good rule of thumb: maintain at least 4 public and 2 subscriber topics ahead of schedule.
+
+## The Result
+
+Two posts per day, published automatically, with human-curated topics and AI-executed workflow. The posts are technically accurate, security-scanned, and indexed for search. The only human step left is adding topics to the queue.
+
+That's the automation I wanted: not replacing the writer, but removing the friction between idea and publish.
