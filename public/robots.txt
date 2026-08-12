@@ -1,0 +1,13 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://deepukhadgi.com.np/sitemap.xml
+
+# Crawl-delay for polite bots
+Crawl-delay: 1
+
+# Block admin/internal paths
+Disallow: /api/
+Disallow: /admin/
+Disallow: /_next/

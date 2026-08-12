@@ -38,6 +38,21 @@ export const metadata: Metadata = {
     description:
       "Networks, containers, VMs, and infrastructure that just works. Personal blog about tech and the stuff I build.",
     type: "website",
+    images: [
+      {
+        url: "https://deepukhadgi.com.np/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Technography — Deepu Khadgi",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Deepu Khadgi — Network Engineer",
+    description:
+      "Networks, containers, VMs, and infrastructure that just works. Personal blog about tech and the stuff I build.",
+    images: ["https://deepukhadgi.com.np/og-image.jpg"],
   },
 };
 
