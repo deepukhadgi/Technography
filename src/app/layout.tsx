@@ -27,6 +27,11 @@ export const metadata: Metadata = {
   description:
     "Personal site and blog of Deepu Khadgi, a network engineer writing about Linux, Docker, virtualization, networking, and self-hosting.",
   metadataBase: new URL("https://deepukhadgi.com.np"),
+  verification: {
+    // TODO: Replace with your actual Google Search Console verification code
+    // Get it from: https://search.google.com/search-console/ownership-verify
+    google: "CONTENT_HERE",
+  },
   alternates: {
     canonical: "/",
     types: {
@@ -142,6 +147,8 @@ export default function RootLayout({
                 <div className="mt-4 flex flex-wrap gap-x-4 gap-y-1 font-mono text-[11px] text-dim/70">
                   <a href="/rss.xml" target="_blank" rel="noopener noreferrer" className="hover:text-accent">rss</a>
                   <a href="/sitemap.xml" target="_blank" rel="noopener noreferrer" className="hover:text-accent">sitemap</a>
+                  <a href="/privacy" className="hover:text-accent">privacy</a>
+                  <a href="/terms" className="hover:text-accent">terms</a>
                 </div>
               </div>
             </footer>
