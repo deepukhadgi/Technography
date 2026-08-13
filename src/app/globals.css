@@ -175,10 +175,10 @@ canvas {
   white-space: pre;
 }
 
-/* Anchor targets must clear the sticky site header (~64px) on scroll —
+/* Anchor targets must clear the sticky site header (~64px) + search bar (~80px) on scroll —
    covers both TOC clicks (scrollIntoView) and direct #hash deep-links. */
 .post-content :is(h1, h2, h3, h4) {
-  scroll-margin-top: 5rem;
+  scroll-margin-top: 10rem;
 }
 
 /* ---------------------------------------------------------------------------
