@@ -8,7 +8,7 @@
 - [x] Deploying Listmonk: Self-Hosted Newsletter in 5 Commands | self-hosting,docker,newsletter,listmonk | public | published
 - [x] Meilisearch on Docker: Blazing Fast Full-Text Search for Your Blog | self-hosting,docker,search,meilisearch | public | published
 - [x] Umami vs Google Analytics: Why I Switched to Privacy-First Analytics | analytics,privacy,umami,self-hosting | public | published
-- [ ] Setting Up Proxmox VE for a Multi-VM Homelab | proxmox,virtualization,homelab,linux | public | pending
+|- [x] Setting Up Proxmox VE for a Multi-VM Homelab | proxmox,virtualization,homelab,linux | public | published
 - [x] Next.js 16 Standalone Deployment: The Complete Guide | nextjs,deployment,nginx,ubuntu | public | published
 - [x] Cloudflare + Self-Hosted: SSL, Proxy, and DNS for Homelabbers | cloudflare,networking,ssl,security | public | published
 - [x] Postfix + OpenDKIM: Self-Hosted Mail Server That Actually Works | mail,postfix,dkim,smtp,linux | public | published
@@ -23,4 +23,5 @@
 - [x] Honcho Deep Dive Part 2: Production Tuning and Scaling | honcho,ai,memory,performance | subscriber | published
 - [x] How I Automated My DevOps with an AI Agent | ai,devops,automation,hermes | subscriber | published
 - [x] Cloudflare Email Routing: Free Email for Your Domain | cloudflare,email,dns,setup | subscriber | published
-- [x] From Zero to Subscriber: Building Auth + Premium Gating in Next.js | nextjs,auth,premium,javascript | subscriber | published
+|- [x] From Zero to Subscriber: Building Auth + Premium Gating in Next.js | nextjs,auth,premium,javascript | subscriber | published
+|- [x] The Technography Deployment Pipeline: From Topic to Live Site in Minutes | devops,automation,nextjs,ci-cd | subscriber | published
