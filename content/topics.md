@@ -4,7 +4,7 @@
 
 ## Public Posts (DevOps tutorials, homelab guides)
 
-- [ ] How I Hardened My Webserver in 10 Minutes — UFW + fail2ban + SSH | security,linux,ubuntu,homelab | public | pending
+- [x] How I Hardened My Webserver in 10 Minutes — UFW + fail2ban + SSH | security,linux,ubuntu,homelab | published
 - [x] Deploying Listmonk: Self-Hosted Newsletter in 5 Commands | self-hosting,docker,newsletter,listmonk | public | published
 - [x] Meilisearch on Docker: Blazing Fast Full-Text Search for Your Blog | self-hosting,docker,search,meilisearch | public | published
 - [x] Umami vs Google Analytics: Why I Switched to Privacy-First Analytics | analytics,privacy,umami,self-hosting | public | published
@@ -13,7 +13,7 @@
 - [x] Cloudflare + Self-Hosted: SSL, Proxy, and DNS for Homelabbers | cloudflare,networking,ssl,security | public | published
 - [x] Postfix + OpenDKIM: Self-Hosted Mail Server That Actually Works | mail,postfix,dkim,smtp,linux | public | published
 - [x] Docker Networking 101: Connecting Containers Across Services | docker,networking,containers,linux | public | published
-- [ ] Nginx Reverse Proxy: From Zero to Production | nginx,reverse-proxy,linux,ssl | public | pending
+- [x] Nginx Reverse Proxy: From Zero to Production | nginx,reverse-proxy,linux,ssl | published
 
 ## Subscriber Posts (Deep dives, behind-the-scenes)
 
