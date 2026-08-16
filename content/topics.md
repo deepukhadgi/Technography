@@ -13,7 +13,10 @@
 - [x] Cloudflare + Self-Hosted: SSL, Proxy, and DNS for Homelabbers | cloudflare,networking,ssl,security | public | published
 - [x] Postfix + OpenDKIM: Self-Hosted Mail Server That Actually Works | mail,postfix,dkim,smtp,linux | public | published
 - [x] Docker Networking 101: Connecting Containers Across Services | docker,networking,containers,linux | public | published
-- [x] Nginx Reverse Proxy: From Zero to Production | nginx,reverse-proxy,linux,ssl | published
+|- [x] Nginx Reverse Proxy: From Zero to Production | nginx,reverse-proxy,linux,ssl | published
+
+- [ ] Monitoring Your Homelab with Grafana + Prometheus | monitoring,grafana,prometheus,homelab | public | published
+- [ ] Traefik vs Nginx: Choosing a Reverse Proxy in 2026 | nginx,traefik,reverse-proxy,linux | public | pending
 
 ## Subscriber Posts (Deep dives, behind-the-scenes)
 
@@ -24,4 +27,7 @@
 - [x] How I Automated My DevOps with an AI Agent | ai,devops,automation,hermes | subscriber | published
 - [x] Cloudflare Email Routing: Free Email for Your Domain | cloudflare,email,dns,setup | subscriber | published
 |- [x] From Zero to Subscriber: Building Auth + Premium Gating in Next.js | nextjs,auth,premium,javascript | subscriber | published
-|- [x] The Technography Deployment Pipeline: From Topic to Live Site in Minutes | devops,automation,nextjs,ci-cd | subscriber | published
+||- [x] The Technography Deployment Pipeline: From Topic to Live Site in Minutes | devops,automation,nextjs,ci-cd | subscriber | published
+
+- [ ] Anatomy of a Blog Post: How Technography Goes From Idea to Live in 30 Min | automation,blog,ai,workflow | subscriber | pending
+- [ ] Meilisearch Tuning: Ranking, Synonyms & Typo Tolerance That Convert | search,meilisearch,performance | subscriber | pending
