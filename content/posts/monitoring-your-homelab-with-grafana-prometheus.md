@@ -16,11 +16,11 @@ Prometheus and Grafana are the standard answer. Prometheus collects metrics — 
 Prometheus is a time-series database. That's it. It doesn't care about your applications, your containers, or your feelings. It stores numbers tagged with labels and queried by time range.
 
 ```
-cpu_usage_seconds_total{job="node",instance="webserver"} 42.7
-memory_available_bytes{job="node",instance="webserver"} 3222715392
+cpu_usage_seconds_total{job="node",instance="<YOUR_HOST>"} 42.7
+memory_available_bytes{job="node",instance="<YOUR_HOST>"} 3222715392
 ```
 
-That's all Prometheus knows. The first line says: the CPU has been busy for 42.7 seconds total on the webserver node. The second says 3.2 GB of memory is still available. Nothing fancy. Just numbers with context.
+That's all Prometheus knows. The first line says: the CPU has been busy for 42.7 seconds total on the monitored host. The second says 3.2 GB of memory is still available. Nothing fancy. Just numbers with context.
 
 The "context" comes from **labels** — key-value pairs that describe the metric. `job` tells you what's being measured. `instance` tells you which machine. You can add more: `service="postgres"`, `host="rack-1"`. Prometheus indexes them, so queries are fast even with millions of data points.
 
@@ -29,7 +29,7 @@ The "context" comes from **labels** — key-value pairs that describe the metric
 Most monitoring tools work the other way: you push metrics to them. Prometheus pulls. It has a list of **targets** — endpoints that expose a `/metrics` path — and it scrapes them on a schedule. Every 15 seconds, every minute, whatever you configure.
 
 ```
-$ curl http://webserver:9100/metrics
+$ curl http://<YOUR_HOST>:9100/metrics
 # HELP up Whether the target is up.
 # TYPE up gauge
 up 1
