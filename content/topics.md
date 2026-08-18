@@ -16,7 +16,7 @@
 |- [x] Nginx Reverse Proxy: From Zero to Production | nginx,reverse-proxy,linux,ssl | published
 
 - [ ] Monitoring Your Homelab with Grafana + Prometheus | monitoring,grafana,prometheus,homelab | public | published
-- [ ] Traefik vs Nginx: Choosing a Reverse Proxy in 2026 | nginx,traefik,reverse-proxy,linux | public | pending
+- [x] Traefik vs Nginx: Choosing a Reverse Proxy in 2026 | nginx,traefik,reverse-proxy,linux | public | published
 - [x] Setting Up WireGuard VPN on Your Homelab Network | vpn,wireguard,networking,security | public | published
 - [ ] Automated Backups with BorgBackup to Remote Storage | backup,borg,automation,linux | public | pending
 - [ ] Self-Hosted Git Server with Gitea: Docker Setup Guide | git,gitea,self-hosting,docker | public | pending
@@ -93,7 +93,7 @@
 - [ ] OmniRoute Deep Dive: How Routing Strategies Actually Work | omniroute,ai,gateway,routing | subscriber | pending
 - [ ] Hermes Agent Internals: Skills, Memory, and the Learning Loop | hermes,agents,memory,internals | subscriber | pending
 - [ ] Honcho Memory Architecture: From Conversations to Actionable Insights | honcho,memory,architecture,ai | subscriber | pending
-- [ ] Behind the Scenes: How I Write Two Blog Posts Every Single Day | automation,blog,workflow,hermes | subscriber | pending
+- [x] Behind the Scenes: How I Write Two Blog Posts Every Single Day | automation,blog,workflow,hermes | subscriber | published
 - [ ] Cost Breakdown: Running My Entire Homelab on Under $20 a Month | costs,homelab,self-hosting,budget | subscriber | pending
 - [ ] Security Audit of My Own Homelab: What I Found and Fixed | security,audit,homelab,vulnerabilities | subscriber | pending
 - [ ] The 2 AM Debugging Sessions: Stories from Production Self-Hosting | debugging,production,devops,stories | subscriber | pending
