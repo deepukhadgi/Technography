@@ -5,7 +5,7 @@ This vault is synced via Gitea on the local network.
 
 ### Sync Settings
 - **Sync method**: Git via Gitea
-- **Remote**: ssh://git@gitea/rwomehyo/obsidian-vault.git
+- **Remote**: SSH server at port 2222
 - **Branch**: main
 - **Auto-sync**: Enabled (when connected to LAN)
 
@@ -16,12 +16,17 @@ This vault is synced via Gitea on the local network.
 ### Mobile Setup (iOS)
 For iOS sync with Obsidian:
 1. Install **Working Copy** app (~$5) from App Store
-2. Clone the repository: `ssh://git@gitea/rwomehyo/obsidian-vault.git`
-3. In Obsidian, open the folder from Working Copy
-4. Use Working Copy's built-in pull/push for sync
+2. Add SSH repository:
+   - Host: the dockersrv IP
+   - Port: 2222
+   - Path: `/rwomehyo/obsidian-vault.git`
+   - Auth: SSH key (auto-configured)
+3. Clone the repository
+4. In Obsidian, open the folder from Working Copy
+5. Use Working Copy's built-in pull/push for sync
 
 ### Desktop Setup (macOS/Linux)
-1. Clone the repository: `git clone ssh://git@gitea/rwomehyo/obsidian-vault.git`
+1. Clone the repository via SSH
 2. Open in Obsidian
 3. Use Obsidian Git plugin for auto-sync
 
