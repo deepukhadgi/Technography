@@ -12,6 +12,10 @@ const baseLinks = [
   { href: "/contact", label: "contact" },
 ];
 
+const ownerLinks = [
+  { href: "/chat", label: "chat" },
+];
+
 const authLinks = [
   { href: "/signup", label: "signup" },
   { href: "/login", label: "login" },
@@ -26,9 +30,13 @@ const authLinks = [
  * `onNavigate` is optional: used by the mobile menu to close the panel
  * after a link is tapped. Auth logic is otherwise untouched.
  */
+// Owner email - only show chat link to owner
+const OWNER_EMAIL = "deepu.khadgi@gmail.com";
+
 export default function AuthNav({ onNavigate }: { onNavigate?: () => void }) {
   const router = useRouter();
   const [loggedIn, setLoggedIn] = useState<boolean | null>(null);
+  const [isOwner, setIsOwner] = useState(false);
   const [loggingOut, setLoggingOut] = useState(false);
 
   useEffect(() => {
@@ -36,7 +44,10 @@ export default function AuthNav({ onNavigate }: { onNavigate?: () => void }) {
     fetch("/api/auth/me")
       .then((r) => r.json())
       .then((data) => {
-        if (!cancelled) setLoggedIn(data?.loggedIn === true);
+        if (!cancelled) {
+          setLoggedIn(data?.loggedIn === true);
+          setIsOwner(data?.email === OWNER_EMAIL);
+        }
       })
       .catch(() => {
         if (!cancelled) setLoggedIn(false);
@@ -66,6 +77,16 @@ export default function AuthNav({ onNavigate }: { onNavigate?: () => void }) {
           href={l.href}
           onClick={onNavigate}
           className="py-3 text-dim transition-colors hover:text-accent sm:py-0"
+        >
+          {l.label}
+        </Link>
+      ))}
+      {isOwner && ownerLinks.map((l) => (
+        <Link
+          key={l.href}
+          href={l.href}
+          onClick={onNavigate}
+          className="py-3 text-accent transition-colors hover:text-accent-dim sm:py-0"
         >
           {l.label}
         </Link>
