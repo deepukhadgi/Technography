@@ -18,7 +18,7 @@
 - [ ] Monitoring Your Homelab with Grafana + Prometheus | monitoring,grafana,prometheus,homelab | public | published
 - [x] Traefik vs Nginx: Choosing a Reverse Proxy in 2026 | nginx,traefik,reverse-proxy,linux | public | published
 - [x] Setting Up WireGuard VPN on Your Homelab Network | vpn,wireguard,networking,security | public | published
-- [ ] Automated Backups with BorgBackup to Remote Storage | backup,borg,automation,linux | public | pending
+- [x] Automated Backups with BorgBackup to Remote Storage | backup,borg,automation,linux | public | published
 - [ ] Self-Hosted Git Server with Gitea: Docker Setup Guide | git,gitea,self-hosting,docker | public | pending
 - [ ] Docker Compose Health Checks: When and How to Use Them | docker,compose,health,containers | public | pending
 - [ ] Zero-Downtime Deployments with Docker and Nginx | deployment,docker,nginx,zero-downtime | public | pending
@@ -88,7 +88,7 @@
 |- [x] From Zero to Subscriber: Building Auth + Premium Gating in Next.js | nextjs,auth,premium,javascript | subscriber | published
 ||- [x] The Technography Deployment Pipeline: From Topic to Live Site in Minutes | devops,automation,nextjs,ci-cd | subscriber | published
 
-- [ ] Anatomy of a Blog Post: How Technography Goes From Idea to Live in 30 Min | automation,blog,ai,workflow | subscriber | pending
+- [x] Anatomy of a Blog Post: How Technography Goes From Idea to Live in 30 Min | automation,blog,ai,workflow | subscriber | published
 - [x] Meilisearch Tuning: Ranking, Synonyms & Typo Tolerance That Convert | search,meilisearch,performance | subscriber | published
 - [ ] OmniRoute Deep Dive: How Routing Strategies Actually Work | omniroute,ai,gateway,routing | subscriber | pending
 - [ ] Hermes Agent Internals: Skills, Memory, and the Learning Loop | hermes,agents,memory,internals | subscriber | pending
