@@ -21,7 +21,7 @@
 - [x] Automated Backups with BorgBackup to Remote Storage | backup,borg,automation,linux | public | published
 - [x] Self-Hosted Git Server with Gitea: Docker Setup Guide | git,gitea,self-hosting,docker | public | published
 - [x] Docker Compose Health Checks: When and How to Use Them | docker,compose,health,containers | public | published
-- [ ] Zero-Downtime Deployments with Docker and Nginx | deployment,docker,nginx,zero-downtime | public | pending
+- [x] Zero-Downtime Deployments with Docker and Nginx | deployment,docker,nginx,zero-downtime | public | published
 - [ ] Personal Cloud with Nextcloud: Docker Compose Setup | nextcloud,self-hosting,docker,cloud | public | pending
 - [ ] Home Network Segmentation with VLANs on Linux | networking,vlan,linux,security | public | pending
 - [ ] Automated SSL Certificates with Caddy and Cloudflare | caddy,ssl,cloudflare,automation | public | pending
@@ -92,7 +92,7 @@
 - [x] Meilisearch Tuning: Ranking, Synonyms & Typo Tolerance That Convert | search,meilisearch,performance | subscriber | published
 - [x] OmniRoute Deep Dive: How Routing Strategies Actually Work | omniroute,ai,gateway,routing | subscriber | published
 - [x] Hermes Agent Internals: Skills, Memory, and the Learning Loop | hermes,agents,memory,internals | subscriber | published
-- [ ] Honcho Memory Architecture: From Conversations to Actionable Insights | honcho,memory,architecture,ai | subscriber | pending
+- [x] Honcho Memory Architecture: From Conversations to Actionable Insights | honcho,memory,architecture,ai | subscriber | published
 - [x] Behind the Scenes: How I Write Two Blog Posts Every Single Day | automation,blog,workflow,hermes | subscriber | published
 - [ ] Cost Breakdown: Running My Entire Homelab on Under $20 a Month | costs,homelab,self-hosting,budget | subscriber | pending
 - [ ] Security Audit of My Own Homelab: What I Found and Fixed | security,audit,homelab,vulnerabilities | subscriber | pending
