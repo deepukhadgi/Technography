@@ -22,7 +22,7 @@
 - [x] Self-Hosted Git Server with Gitea: Docker Setup Guide | git,gitea,self-hosting,docker | public | published
 - [x] Docker Compose Health Checks: When and How to Use Them | docker,compose,health,containers | public | published
 - [x] Zero-Downtime Deployments with Docker and Nginx | deployment,docker,nginx,zero-downtime | public | published
-- [ ] Personal Cloud with Nextcloud: Docker Compose Setup | nextcloud,self-hosting,docker,cloud | public | pending
+- [x] Personal Cloud with Nextcloud: Docker Compose Setup | nextcloud,self-hosting,docker,cloud | public | published
 - [ ] Home Network Segmentation with VLANs on Linux | networking,vlan,linux,security | public | pending
 - [ ] Automated SSL Certificates with Caddy and Cloudflare | caddy,ssl,cloudflare,automation | public | pending
 - [ ] Monitoring Container Logs with Loki + Grafana | loki,grafana,monitoring,docker | public | pending
@@ -94,7 +94,7 @@
 - [x] Hermes Agent Internals: Skills, Memory, and the Learning Loop | hermes,agents,memory,internals | subscriber | published
 - [x] Honcho Memory Architecture: From Conversations to Actionable Insights | honcho,memory,architecture,ai | subscriber | published
 - [x] Behind the Scenes: How I Write Two Blog Posts Every Single Day | automation,blog,workflow,hermes | subscriber | published
-- [ ] Cost Breakdown: Running My Entire Homelab on Under $20 a Month | costs,homelab,self-hosting,budget | subscriber | pending
+- [x] Cost Breakdown: Running My Entire Homelab on Under $20 a Month | costs,homelab,self-hosting,budget | subscriber | published
 - [ ] Security Audit of My Own Homelab: What I Found and Fixed | security,audit,homelab,vulnerabilities | subscriber | pending
 - [ ] The 2 AM Debugging Sessions: Stories from Production Self-Hosting | debugging,production,devops,stories | subscriber | pending
 - [ ] How I Choose What to Build Next: My Project Planning Process | planning,projects,building,process | subscriber | pending
