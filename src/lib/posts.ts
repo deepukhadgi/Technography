@@ -3,6 +3,7 @@ import path from "path";
 import matter from "gray-matter";
 import { remark } from "remark";
 import html from "remark-html";
+import { remarkHighlight } from "./remarkHighlight";
 
 const postsDirectory = path.join(process.cwd(), "content", "posts");
 
@@ -61,7 +62,7 @@ export function getAllTags(): string[] {
 
 export async function getPostBySlug(slug: string): Promise<Post> {
   const { meta, content } = parseFile(slug);
-  const processed = await remark().use(html).process(content);
+  const processed = await remark().use(remarkHighlight).use(html).process(content);
   return {
     ...meta,
     contentHtml: processed.toString(),

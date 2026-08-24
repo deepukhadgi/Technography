@@ -50,18 +50,25 @@ export default function SiteNav() {
         >
           <AuthNav onNavigate={() => setOpen(false)} />
           <Link
-            href="/phyu"
-            onClick={() => setOpen(false)}
-            className="py-3 text-dim transition-colors hover:text-accent sm:py-0"
-          >
-            phyu 🌸
-          </Link>
-          <Link
             href="/newsletter"
             onClick={() => setOpen(false)}
             className="py-3 text-dim transition-colors hover:text-accent sm:py-0"
           >
             newsletter
+          </Link>
+          <Link
+            href="/search-ask"
+            onClick={() => setOpen(false)}
+            className="py-3 text-dim transition-colors hover:text-accent sm:py-0"
+          >
+            ask
+          </Link>
+          <Link
+            href="/infrastructure"
+            onClick={() => setOpen(false)}
+            className="py-3 text-dim transition-colors hover:text-accent sm:py-0"
+          >
+            infrastructure
           </Link>
         </div>
       </nav>

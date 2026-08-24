@@ -116,6 +116,11 @@ body {
   padding: 1rem;
   overflow-x: auto;
   font-size: 0.85rem;
+  position: relative;
+}
+.post-content pre code {
+  white-space: pre;
+  display: block;
 }
 .post-content code:not(pre code) {
   background: var(--code-inline-bg);
@@ -123,6 +128,95 @@ body {
   padding: 0.1rem 0.35rem;
   border-radius: 0.25rem;
   font-size: 0.85em;
+}
+
+/* Syntax highlighting styles (highlight.js) */
+.post-content pre code.hljs {
+  background: transparent;
+  color: inherit;
+  padding: 0;
+}
+.post-content pre code.hljs .hljs-keyword,
+.post-content pre code.hljs .hljs-selector-tag,
+.post-content pre code.hljs .hljs-subst {
+  color: #c792ea;
+}
+.post-content pre code.hljs .hljs-title,
+.post-content pre code.hljs .hljs-title.class_,
+.post-content pre code.hljs .hljs-title.function_ {
+  color: #ffcb6b;
+}
+.post-content pre code.hljs .hljs-literal,
+.post-content pre code.hljs .hljs-number,
+.post-content pre code.hljs .hljs-symbol,
+.post-content pre code.hljs .hljs-bullet {
+  color: #f78c6c;
+}
+.post-content pre code.hljs .hljs-string,
+.post-content pre code.hljs .hljs-regexp,
+.post-content pre code.hljs .hljs-attribute {
+  color: #c3e88d;
+}
+.post-content pre code.hljs .hljs-built_in,
+.post-content pre code.hljs .hljs-type,
+.post-content pre code.hljs .hljs-class .hljs-title {
+  color: #ffcb6b;
+}
+.post-content pre code.hljs .hljs-comment,
+.post-content pre code.hljs .hljs-quote {
+  color: #546e7a;
+  font-style: italic;
+}
+.post-content pre code.hljs .hljs-tag,
+.post-content pre code.hljs .hljs-meta,
+.post-content pre code.hljs .hljs-doctag {
+  color: #89ddff;
+}
+.post-content pre code.hljs .hljs-attr,
+.post-content pre code.hljs .hljs-property {
+  color: #89ddff;
+}
+.post-content pre code.hljs .hljs-function {
+  color: #82aaff;
+}
+.post-content pre code.hljs .hljs-function .hljs-title {
+  color: #ffcb6b;
+}
+.post-content pre code.hljs .hljs-variable,
+.post-content pre code.hljs .hljs-template-variable {
+  color: #f78c6c;
+}
+.post-content pre code.hljs .hljs-params {
+  color: #ffcb6b;
+}
+
+/* Language badge */
+.post-content pre[data-language]::before {
+  content: attr(data-language);
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-dim);
+  background: var(--color-panel);
+  padding: 0.15rem 0.4rem;
+  border-radius: 0.25rem;
+  border: 1px solid var(--color-line);
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* Light theme syntax highlighting adjustments */
+.light .post-content pre code.hljs .hljs-comment,
+.light .post-content pre code.hljs .hljs-quote {
+  color: #7c8a83;
+}
+.light .post-content pre[data-language]::before {
+  background: var(--color-panel);
+  color: var(--color-dim);
 }
 .post-content a {
   color: var(--color-accent);

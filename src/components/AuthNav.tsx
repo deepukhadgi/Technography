@@ -12,6 +12,11 @@ const baseLinks = [
   { href: "/contact", label: "contact" },
 ];
 
+const userLinks = [
+  { href: "/profile", label: "profile" },
+  { href: "/settings", label: "settings" },
+];
+
 const ownerLinks = [
   { href: "/chat", label: "chat" },
 ];
@@ -71,6 +76,16 @@ export default function AuthNav({ onNavigate }: { onNavigate?: () => void }) {
 
   return (
     <div className="flex flex-col items-start gap-1 sm:flex-row sm:items-center sm:gap-5">
+      {loggedIn && userLinks.map((l) => (
+        <Link
+          key={l.href}
+          href={l.href}
+          onClick={onNavigate}
+          className="py-3 text-dim transition-colors hover:text-accent sm:py-0"
+        >
+          {l.label}
+        </Link>
+      ))}
       {baseLinks.map((l) => (
         <Link
           key={l.href}
