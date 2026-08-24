@@ -57,13 +57,6 @@ export default function SiteNav() {
             newsletter
           </Link>
           <Link
-            href="/search-ask"
-            onClick={() => setOpen(false)}
-            className="py-3 text-dim transition-colors hover:text-accent sm:py-0"
-          >
-            ask
-          </Link>
-          <Link
             href="/infrastructure"
             onClick={() => setOpen(false)}
             className="py-3 text-dim transition-colors hover:text-accent sm:py-0"
