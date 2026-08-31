@@ -1,2 +1,2 @@
-- [x] Home Network Segmentation with VLANs on Linux | networking,vlan,linux,security | public | published
-- [x] Security Audit of My Own Homelab: What I Found and Fixed | security,audit,homelab,vulnerabilities | subscriber | published
+- [x] Optimizing Proxmox Backup Storage Performance | proxmox,storage,performance,backups | public | published
+- [x] Behind the Scenes: How I Manage My Blog's Infrastructure | homelab,blogging,behind-the-scenes | subscriber | published
