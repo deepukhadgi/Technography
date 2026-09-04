@@ -1,2 +1,4 @@
 - [x] Optimizing Proxmox Backup Storage Performance | proxmox,storage,performance,backups | public | published
 - [x] Behind the Scenes: How I Manage My Blog's Infrastructure | homelab,blogging,behind-the-scenes | subscriber | published
+- [x] Ansible for Homelabs: Automating Your Infrastructure with 50 Lines of YAML | ansible,automation,homelab,devops | public | published
+- [x] Inside the AI-Powered Cron: How I Automated Daily Blog Publishing | automation,ai,devops,subscriber-only | subscriber | published
